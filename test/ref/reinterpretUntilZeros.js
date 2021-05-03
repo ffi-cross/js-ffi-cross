@@ -1,7 +1,7 @@
 'use strict';
 const fs = require('fs');
 const assert = require('assert');
-const ref = require('../');
+const { ref } = require('../..');
 
 describe('reinterpretUntilZeros()', function() {
   beforeEach(gc);

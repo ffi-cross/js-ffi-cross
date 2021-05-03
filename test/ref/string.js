@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('assert');
-const ref = require('../');
+const { ref } = require('../..');
 
 describe('C string', function() {
   describe('readCString()', function() {

@@ -1,6 +1,7 @@
 'use strict';
 const assert = require('assert');
-const ref = require('../');
+const { ref } = require('../..');
+
 let weak; try { weak = require('weak-napi'); } catch (e) {}
 
 describe('pointer', function() {

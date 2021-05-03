@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('assert');
-const ref = require('../');
+const { ref } = require('../..');
 
 // This will check if the new Buffer implementation behaves like the pre io.js 3.0 one did:
 describe('iojs3issue', function() {

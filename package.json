@@ -36,14 +36,15 @@
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
     "prebuildify": "^4.0.0",
-    "prebuildify-ci": "^1.0.5"
+    "prebuildify-ci": "^1.0.5",
+    "weak-napi": "^2.0.2"
   },
   "scripts": {
     "install": "node-gyp-build",
     "prebuild": "prebuildify --napi --tag-armv --tag-uv",
     "prepack": "prebuildify-ci download && ([ $(ls prebuilds | wc -l) = '5' ] || (echo 'Some prebuilds are missing'; exit 1))",
     "test:cov": "nyc mocha --expose-gc --reporter spec",
-    "test": "mocha --expose-gc --reporter spec",
+    "test": "mocha --expose-gc --reporter spec test/**/*.js",
     "mocha": "mocha",
     "test:build": "node-gyp rebuild --directory test"
   },

@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('assert');
-const ref = require('../');
+const { ref } = require('../..');
 
 describe('char', function() {
   it('should accept a JS String, and write the first char\'s code', function() {

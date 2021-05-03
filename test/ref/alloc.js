@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('assert');
-const ref = require('../');
+const { ref } = require('../..');
 
 describe('alloc()', function() {
   it('should return a new Buffer of "bool" size', function() {

@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('assert');
-const ref = require('../');
+const { ref } = require('../..');
 
 describe('isNull', function() {
   it('should return "true" for the NULL pointer', function() {

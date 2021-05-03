@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('assert');
-const ref = require('../');
+const { ref } = require('../..');
 
 describe('uint64', function() {
   const JS_MAX_INT = +Number.MAX_SAFE_INTEGER;

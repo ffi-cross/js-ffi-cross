@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('assert');
-const ref = require('../');
+const { ref } = require('../..');
 
 describe('coerce', function() {
   it('should return `ref.types.void` for "void"', function() {
