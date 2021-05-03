@@ -1,7 +1,7 @@
 'use strict';
 const assert = require('assert');
-const ref = require('ref-napi');
 const ffi = require('../');
+const { ref } = ffi
 const int = ref.types.int;
 const bindings = require('node-gyp-build')(__dirname);
 

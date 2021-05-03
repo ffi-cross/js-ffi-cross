@@ -3,13 +3,12 @@
     'target_name': 'ffi_bindings',
     'sources': [
       'src/ffi.cc',
+      'src/ref-napi.cc',
       'src/callback_info.cc',
       'src/threaded_callback_invokation.cc'
     ],
     'include_dirs': [
       "<!@(node -p \"require('node-addon-api').include\")",
-      "<!@(node -p \"require('get-uv-event-loop-napi-h').include\")",
-      "<!@(node -p \"require('ref-napi/lib/get-paths').include\")",
     ],
     'dependencies': [
       "<!(node -p \"require('node-addon-api').gyp\")",

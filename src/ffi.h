@@ -123,14 +123,25 @@ class ThreadedCallbackInvokation {
     uv_mutex_t m_mutex;
 };
 
+struct ArrayBufferEntry {
+  Reference<ArrayBuffer> ab;
+  size_t finalizer_count;
+};
+
 class InstanceData final {
  public:
-  explicit InstanceData(Env env_) : env(env_) {}
+  explicit InstanceData(Env env_);
+  ~InstanceData();
 
   Env env;
-  RefNapi::Instance* ref_napi_instance = nullptr;
+
+  std::unordered_map<char*, ArrayBufferEntry> pointer_to_orig_buffer;
+  FunctionReference buffer_from;
 
   void Dispose();
+  napi_value WrapPointer(char* ptr, size_t length);
+  char* GetBufferData(napi_value val);
+  void RegisterArrayBuffer(napi_value val);
 
 #ifdef WIN32
   DWORD thread;

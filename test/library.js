@@ -1,8 +1,7 @@
 'use strict';
 const assert = require('assert');
-const ref = require('ref-napi');
-const Struct = require('ref-struct-di')(ref);
 const ffi = require('../');
+const { ref, StructType } = ffi
 const DynamicLibrary = ffi.DynamicLibrary;
 const Library = ffi.Library;
 
@@ -109,7 +108,7 @@ describe('Library', function () {
   if (process.platform == 'win32') {
 
     it('should work with "GetTimeOfDay" and a "FILETIME" Struct pointer', () => {
-      const FILETIME = new Struct({
+      const FILETIME = new StructType({
         dwLowDateTime: ref.types.uint32,
         dwHighDateTime: ref.types.uint32
       })
@@ -124,7 +123,7 @@ describe('Library', function () {
   } else {
 
     it('should work with "gettimeofday" and a "timeval" Struct pointer', () => {
-      const timeval = new Struct({
+      const timeval = new StructType({
         tv_sec: ref.types.long,
         tv_usec: ref.types.long
       });

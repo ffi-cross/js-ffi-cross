@@ -1,7 +1,7 @@
 'use strict';
 const assert = require('assert')
-const ref = require('ref-napi')
 const ffi = require('../')
+const { ref } = ffi
 
 describe('types', function () {
   describe('`ffi_type` to ref type matchups', function () {

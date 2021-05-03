@@ -1,5 +1,5 @@
 {
-  "name": "ffi-napi",
+  "name": "ffi-cross",
   "version": "4.0.3",
   "license": "MIT",
   "author": "Anna Henningsen <anna@addaleax.net>",
@@ -26,26 +26,26 @@
   },
   "main": "./lib/ffi",
   "dependencies": {
+    "array-index": "^1.0.0",
     "debug": "^4.1.1",
-    "get-uv-event-loop-napi-h": "^1.0.5",
     "node-addon-api": "^3.0.0",
-    "node-gyp-build": "^4.2.1",
-    "ref-napi": "^2.0.1 || ^3.0.2",
-    "ref-struct-di": "^1.1.0"
+    "node-gyp-build": "^4.2.1"
   },
   "devDependencies": {
     "fs-extra": "^9.0.0",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
     "prebuildify": "^4.0.0",
-    "prebuildify-ci": "^1.0.5",
-    "ref-array-di": "^1.2.1"
+    "prebuildify-ci": "^1.0.5"
   },
   "scripts": {
     "install": "node-gyp-build",
     "prebuild": "prebuildify --napi --tag-armv --tag-uv",
     "prepack": "prebuildify-ci download && ([ $(ls prebuilds | wc -l) = '5' ] || (echo 'Some prebuilds are missing'; exit 1))",
-    "test": "node-gyp rebuild --directory test && nyc mocha --expose-gc --reporter spec"
+    "test:cov": "nyc mocha --expose-gc --reporter spec",
+    "test": "mocha --expose-gc --reporter spec",
+    "mocha": "mocha",
+    "test:build": "node-gyp rebuild --directory test"
   },
   "repository": {
     "type": "git",

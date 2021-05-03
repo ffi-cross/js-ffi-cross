@@ -3,7 +3,6 @@
 #include <math.h>
 #include <napi.h>
 #include <uv.h>
-#include <get-uv-event-loop-napi.h>
 
 using namespace Napi;
 
@@ -209,7 +208,9 @@ void CallCbAsync(const CallbackInfo& args) {
 
   uv_work_t* req = new uv_work_t;
   req->data = reinterpret_cast<void*>(callback);
-  uv_queue_work(get_uv_event_loop(args.Env()),
+  uv_loop_t* loop = nullptr;
+  napi_get_uv_event_loop(args.Env(), &loop);
+  uv_queue_work(loop,
                 req,
                 [](uv_work_t* req) {
                   reinterpret_cast<cb>(req->data)();

@@ -1,7 +1,6 @@
 'use strict';
 const assert = require('assert');
 const path = require('path');
-const ref = require('ref-napi');
 const ffi = require('../');
 const fs = require('fs-extra');
 const DynamicLibrary = ffi.DynamicLibrary;

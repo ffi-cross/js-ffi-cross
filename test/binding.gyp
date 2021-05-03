@@ -5,8 +5,7 @@
       'ffi_tests.cc'
     ],
     'include_dirs': [
-      "<!@(node -p \"require('node-addon-api').include\")",
-      "<!@(node -p \"require('get-uv-event-loop-napi-h').include\")"
+      "<!@(node -p \"require('node-addon-api').include\")"
     ],
     'dependencies': [
       "<!(node -p \"require('node-addon-api').gyp\")"

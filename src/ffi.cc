@@ -1,10 +1,25 @@
 #define NAPI_VERSION 6
 #define NAPI_EXPERIMENTAL /* Until Node.js v12.17.0 is released */
 #include "ffi.h"
+#include "ref-napi.h"
 #include "fficonfig.h"
-#include <get-uv-event-loop-napi.h>
 
 namespace FFI {
+
+InstanceData::InstanceData(Env env_) : env(env_), pointer_to_orig_buffer() {
+  Value buffer_ctor = env.Global()["Buffer"];
+  Value buffer_from = buffer_ctor.As<Object>()["from"];
+  this->buffer_from.Reset(buffer_from.As<Function>(), 1);
+  assert(!this->buffer_from.IsEmpty());
+    // Hack around the fact that we can't reset buffer_from from the
+  // InstanceData dtor.
+  buffer_from.As<Object>().AddFinalizer([](Env env, InstanceData* data) {
+    data->buffer_from.Reset();
+  }, this);
+}
+
+InstanceData::~InstanceData() {
+}
 
 InstanceData* InstanceData::Get(Env env) {
   void* d = nullptr;
@@ -23,14 +38,12 @@ void InstanceData::Dispose() {
 
 TypedArray WrapPointerImpl(Env env, char* ptr, size_t length) {
   InstanceData* data = InstanceData::Get(env);
-  assert(data->ref_napi_instance != nullptr);
-  return TypedArray(env, data->ref_napi_instance->WrapPointer(ptr, length));
+  return TypedArray(env, data->WrapPointer(ptr, length));
 }
 
 char* GetBufferDataImpl(Value val) {
   InstanceData* data = InstanceData::Get(val.Env());
-  assert(data->ref_napi_instance != nullptr);
-  return data->ref_napi_instance->GetBufferData(val);
+  return data->GetBufferData(val);
 }
 
 static int __ffi_errno() { return errno; }
@@ -285,7 +298,9 @@ void FFI::FFICallAsync(const Napi::CallbackInfo& args) {
   p->callback = Reference<Function>::New(args[4].As<Function>(), 1);
   p->req.data = p;
 
-  uv_queue_work(get_uv_event_loop(env),
+  uv_loop_t* loop = nullptr;
+  napi_get_uv_event_loop(env, &loop);
+  uv_queue_work(loop,
                 &p->req,
                 FFI::AsyncFFICall,
                 FFI::FinishAsyncFFICall);
@@ -330,12 +345,12 @@ void FFI::FinishAsyncFFICall(uv_work_t* req, int status) {
 Value InitializeBindings(const Napi::CallbackInfo& args) {
   Env env = args.Env();
 
-  assert(args[0].IsExternal());
-  InstanceData* data = InstanceData::Get(env);
-  data->ref_napi_instance = args[0].As<External<RefNapi::Instance>>().Data();
-
   Object exports = Object::New(env);
   FFI::InitializeBindings(env, exports);
+
+  Napi::Object ref = Napi::Object::New(env);
+  Init(env, ref);
+  exports["ref"] = ref;
   exports["StaticFunctions"] = FFI::InitializeStaticFunctions(env);
   exports["Callback"] = CallbackInfo::Initialize(env);
   return exports;

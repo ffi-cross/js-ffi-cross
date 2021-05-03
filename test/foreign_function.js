@@ -1,23 +1,21 @@
 'use strict';
 const assert = require('assert');
-const ref = require('ref-napi');
-const Array = require('ref-array-di')(ref);
-const Struct = require('ref-struct-di')(ref);
 const ffi = require('../');
+const { ref, ArrayType, StructType } = ffi
 const bindings = require('node-gyp-build')(__dirname);
 
 describe('ForeignFunction', function () {
   afterEach(global.gc);
 
   // these structs are also defined in ffi_tests.cc
-  const box = Struct({
+  const box = StructType({
     width: ref.types.int,
     height: ref.types.int
   });
 
-  const arst = Struct({
+  const arst = StructType({
     num: 'int',
-    array: Array('double', 20)
+    array: ArrayType('double', 20)
   });
 
   it('should call the static "abs" bindings', function () {
@@ -117,7 +115,7 @@ describe('ForeignFunction', function () {
   });
 
   it('should call the static "int_array" bindings', function () {
-    const IntArray = Array('int');
+    const IntArray = ArrayType('int');
     const int_array = ffi.ForeignFunction(bindings.int_array, IntArray, [ IntArray ]);
     const array = new IntArray([ 1, 2, 3, 4, 5, -1 ]);
     const out = int_array(array);
@@ -161,7 +159,7 @@ describe('ForeignFunction', function () {
   // testing `bool` ref type
   // https://github.com/TooTallNate/ref/issues/56
   it('should call the static "test_169" bindings', function () {
-    const Obj56 = Struct({
+    const Obj56 = StructType({
       'traceMode': ref.types.bool
     });
     const t = new Obj56({ traceMode: true });
