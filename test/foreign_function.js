@@ -104,7 +104,7 @@ describe('ForeignFunction', function () {
 
   it('should call the static "add_boxes" bindings', function () {
     const count = 3;
-    const boxes = new Buffer(box.size * count);
+    const boxes = Buffer.alloc(box.size * count);
     box.set(boxes, box.size * 0, { width: 1, height: 10 });
     box.set(boxes, box.size * 1, { width: 2, height: 20 });
     box.set(boxes, box.size * 2, { width: 3, height: 30 });
@@ -153,7 +153,7 @@ describe('ForeignFunction', function () {
   // https://github.com/node-ffi/node-ffi/issues/169
   it('should call the static "test_169" bindings', function () {
     const test = ffi.ForeignFunction(bindings.test_169, 'int', [ 'string', 'int' ]);
-    const b = new Buffer(20);
+    const b = Buffer.alloc(20);
     const len = test(b, b.length);
     assert.strictEqual('sample str', b.toString('ascii', 0, len));
   });
@@ -175,7 +175,7 @@ describe('ForeignFunction', function () {
 
   it('should not call the "ref()" function of its arguments', function () {
     const void_ptr_arg = ffi.ForeignFunction(bindings.abs, 'void *', [ 'void *' ]);
-    const b = new Buffer(0);
+    const b = Buffer.alloc(0);
     b.ref = assert.bind(null, 0, '"ref()" should not be called');
     void_ptr_arg(b);
   });
