@@ -261,6 +261,19 @@ inline Value WrapPointer(Env env, T* ptr, size_t length = 0) {
                            [](Env,char*){});
 }
 
+Value ArrayAbs(const Napi::CallbackInfo& args) {
+  int32_t *arr = reinterpret_cast<int32_t *>(args[0].As<Napi::Uint8Array>().Data());
+  int64_t length = args[1].As<Napi::Number>().Int64Value();
+  for (int64_t i = 0; i < length; i++) {
+    *(arr + i) = abs(arr[i]);
+  }
+  return Napi::Value();
+}
+
+Object InitializeArrayTest(Env env, Object exports) {
+  exports["arrayAbs"] = Function::New(env, ArrayAbs);
+  return exports;
+}
 
 Object Initialize(Env env, Object exports) {
 #if WIN32
@@ -295,6 +308,9 @@ Object Initialize(Env env, Object exports) {
   exports["play_ping_pong"] = WrapPointer(env, play_ping_pong);
   exports["test_169"] = WrapPointer(env, test_169);
   exports["test_ref_56"] = WrapPointer(env, test_ref_56);
+
+  Napi::Object arrayTest = Napi::Object::New(env);
+  exports["arrayTest"] = InitializeArrayTest(env, arrayTest);
 
   return exports;
 }

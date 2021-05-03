@@ -1,8 +1,6 @@
-
-var assert = require('assert')
-  , ref = require('ref')
-  , ArrayType = require('../')(ref)
-  , bindings = require('bindings')({ module_root: __dirname, bindings: 'native_tests' })
+const assert = require("assert")
+const { ref, ArrayType } = require("../")
+const bindings = require('node-gyp-build')(__dirname).arrayTest;
 
 describe('Array', function () {
 
@@ -77,9 +75,9 @@ describe('Array', function () {
       var a = new VoidPtrArray(5)
       assert.equal(5, a.length)
       assert.equal(a.length * ref.sizeof.pointer, a.buffer.length)
-      var ptr1 = Buffer(1)
-      var ptr2 = Buffer(1)
-      var ptr3 = Buffer(1)
+      var ptr1 = Buffer.alloc(1)
+      var ptr2 = Buffer.alloc(1)
+      var ptr3 = Buffer.alloc(1)
       a[0] = ref.NULL
       a[1] = ref.NULL_POINTER
       a[2] = ptr1
