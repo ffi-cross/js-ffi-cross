@@ -567,6 +567,106 @@ Object InitializeStructTest(Env env, Object exports) {
 
 } // anonymous namespace
 
+
+namespace UnionTest {
+
+typedef union _test1 {
+  char a;
+  short b;
+} test1;
+
+typedef union _test2 {
+  char a;
+  int b;
+} test2;
+
+typedef union _test3 {
+  char a;
+  short b;
+  int c;
+} test3;
+
+typedef union _test4 {
+  struct {
+    char a;
+    short b;
+    int c;
+  } a;
+  int b;
+} test4;
+
+typedef union _test5 {
+  double a;
+  char b;
+} test5;
+
+typedef union _test6 {
+  test1 a;
+  char b;
+} test6;
+
+typedef union _test7 {
+  char a;
+  char b[2];
+  short c;
+  char d;
+} test7;
+
+typedef union _test8 {
+  int a;
+  double b;
+  int c;
+} test8;
+
+Object InitializeUnionTest(Env env, Object exports) {
+  exports["test1 sizeof"] = (sizeof(test1));
+  exports["test1 alignof"] = (__alignof__(test1));
+  exports["test1 offsetof a"] = (offsetof(test1, a));
+  exports["test1 offsetof b"] = (offsetof(test1, b));
+
+  exports["test2 sizeof"] = (sizeof(test2));
+  exports["test2 alignof"] = (__alignof__(test2));
+  exports["test2 offsetof a"] = (offsetof(test2, a));
+  exports["test2 offsetof b"] = (offsetof(test2, b));
+
+  exports["test3 sizeof"] = (sizeof(test3));
+  exports["test3 alignof"] = (__alignof__(test3));
+  exports["test3 offsetof a"] = (offsetof(test3, a));
+  exports["test3 offsetof b"] = (offsetof(test3, b));
+  exports["test3 offsetof c"] = (offsetof(test3, c));
+
+  exports["test4 sizeof"] = (sizeof(test4));
+  exports["test4 alignof"] = (__alignof__(test4));
+  exports["test4 offsetof a"] = (offsetof(test4, a));
+  exports["test4 offsetof b"] = (offsetof(test4, b));
+
+  exports["test5 sizeof"] = (sizeof(test5));
+  exports["test5 alignof"] = (__alignof__(test5));
+  exports["test5 offsetof a"] = (offsetof(test5, a));
+  exports["test5 offsetof b"] = (offsetof(test5, b));
+
+  exports["test6 sizeof"] = (sizeof(test6));
+  exports["test6 alignof"] = (__alignof__(test6));
+  exports["test6 offsetof a"] = (offsetof(test6, a));
+  exports["test6 offsetof b"] = (offsetof(test6, b));
+
+  exports["test7 sizeof"] = (sizeof(test7));
+  exports["test7 alignof"] = (__alignof__(test7));
+  exports["test7 offsetof a"] = (offsetof(test7, a));
+  exports["test7 offsetof b"] = (offsetof(test7, b));
+  exports["test7 offsetof c"] = (offsetof(test7, c));
+  exports["test7 offsetof d"] = (offsetof(test7, d));
+
+  exports["test8 sizeof"] = (sizeof(test8));
+  exports["test8 alignof"] = (__alignof__(test8));
+  exports["test8 offsetof a"] = (offsetof(test8, a));
+  exports["test8 offsetof b"] = (offsetof(test8, b));
+  exports["test8 offsetof c"] = (offsetof(test8, c));
+  return exports;
+}
+
+}
+
 Object Initialize(Env env, Object exports) {
 #if WIN32
   // initialize "floating point support" on Windows?!?!
@@ -606,6 +706,9 @@ Object Initialize(Env env, Object exports) {
 
   Napi::Object structTest = Napi::Object::New(env);
   exports["structTest"] = InitializeStructTest(env, structTest);
+
+  Napi::Object unionTest = Napi::Object::New(env);
+  exports["unionTest"] = UnionTest::InitializeUnionTest(env, unionTest);
 
   return exports;
 }

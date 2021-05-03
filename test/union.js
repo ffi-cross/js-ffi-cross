@@ -1,32 +1,29 @@
-
-var assert = require('assert')
-  , ref = require('ref')
-  , Struct = require('ref-struct-di')(ref)
-  , Union = require('../')(ref)
-  , bindings = require('bindings')({ module_root: __dirname, bindings: 'native_tests' })
+const assert = require("assert")
+const { ref, StructType, UnionType } = require("../")
+const bindings = require('node-gyp-build')(__dirname).unionTest;
 
 describe('Union', function () {
 
   afterEach(gc)
 
   it('should be a function', function () {
-    assert.equal('function', typeof Union)
+    assert.equal('function', typeof UnionType)
   })
 
   it('should return a union constuctor function', function () {
-    var U = Union()
+    var U = UnionType()
     assert.equal('function', typeof U)
   })
 
   it('should throw when the same field name is speicified more than once', function () {
-    var U = Union({ a: ref.types.int })
+    var U = UnionType({ a: ref.types.int })
     assert.throws(function () {
       U.defineProperty('a', ref.types.int)
     })
   })
 
   it('should work in a simple case', function () {
-    var SimpleUnion = Union({
+    var SimpleUnion = UnionType({
         'ival': ref.types.int
       , 'fval': ref.types.float
     })
@@ -45,7 +42,7 @@ describe('Union', function () {
   describe('string type identifiers', function () {
 
     it('should work with string type identifiers', function () {
-      var U = Union({
+      var U = UnionType({
           'ival': 'int'
         , 'lval': 'long'
         , 'sval': 'string'
@@ -61,7 +58,7 @@ describe('Union', function () {
   describe('ref(), deref()', function () {
 
     it('should work to ref() and then deref() 1 level deep', function () {
-      var U = Union({ d: 'double' })
+      var U = UnionType({ d: 'double' })
       var u = new U({ d: Math.PI })
       var uref = u.ref()
       assert(Buffer.isBuffer(uref))
@@ -100,27 +97,27 @@ describe('Union', function () {
       })
     }
 
-    var test1 = Union({
+    var test1 = UnionType({
         'a': ref.types.char
       , 'b': ref.types.short
     })
     test(test1, 1)
 
-    var test2 = Union({
+    var test2 = UnionType({
         'a': ref.types.char
       , 'b': ref.types.int
     })
     test(test2, 2)
 
-    var test3 = Union({
+    var test3 = UnionType({
         'a': ref.types.char
       , 'b': ref.types.short
       , 'c': ref.types.int
     })
     test(test3, 3)
 
-    var test4 = Union({
-        'a': Struct({
+    var test4 = UnionType({
+        'a': StructType({
             'a': ref.types.char
           , 'b': ref.types.short
           , 'c': ref.types.int
@@ -129,19 +126,19 @@ describe('Union', function () {
     })
     test(test4, 4)
 
-    var test5 = Union({
+    var test5 = UnionType({
         'a': ref.types.double
       , 'b': ref.types.char
     })
     test(test5, 5)
 
-    var test6 = Union({
+    var test6 = UnionType({
         'a': test1
       , 'b': ref.types.char
     })
     test(test6, 6)
 
-    var test7 = Union({
+    var test7 = UnionType({
         'a': ref.types.char
       , 'b': ref.types.char
       , 'skip': ref.types.char
@@ -150,7 +147,7 @@ describe('Union', function () {
     })
     test(test7, 7)
 
-    var test8 = Union({
+    var test8 = UnionType({
         'a': ref.types.int
       , 'b': ref.types.double
       , 'c': ref.types.int
