@@ -1,9 +1,10 @@
 {
   "name": "ffi-cross",
-  "version": "4.0.3",
+  "version": "5.0.0",
   "license": "MIT",
-  "author": "Anna Henningsen <anna@addaleax.net>",
+  "author": "Yonggang Luo <luoyonggang@gmail.com>",
   "contributors": [
+    "Anna Henningsen <anna@addaleax.net>",
     "Rick Branson <rick@diodeware.com>",
     "Nathan Rajlich <nathan@tootallnate.net>",
     "Gabor Mezo <gabor.mezo@outlook.com>"
@@ -20,39 +21,47 @@
     "napi",
     "stable"
   ],
-  "homepage": "http://github.com/node-ffi-napi/node-ffi-napi",
+  "homepage": "http://github.com/ffi-cross/js-ffi-cross",
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "main": "./lib/ffi",
+  "types": "types/index.d.ts",
   "dependencies": {
     "array-index": "^1.0.0",
-    "debug": "^4.1.1",
-    "node-addon-api": "^3.0.0",
-    "node-gyp-build": "^4.2.1"
+    "debug": "^4.3.1",
+    "node-addon-api": "^3.1.0",
+    "node-gyp-build": "^4.2.3"
   },
   "devDependencies": {
-    "fs-extra": "^9.0.0",
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.0",
-    "prebuildify": "^4.0.0",
+    "@types/node": "^15.0.1",
+    "fs-extra": "^9.1.0",
+    "mocha": "^8.3.2",
+    "nyc": "^15.1.0",
+    "prebuildify": "^4.1.2",
     "prebuildify-ci": "^1.0.5",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4",
     "weak-napi": "^2.0.2"
   },
   "scripts": {
     "install": "node-gyp-build",
     "prebuild": "prebuildify --napi --tag-armv --tag-uv",
+    "prebuild:debug": "prebuildify --napi --tag-armv --tag-uv --debug",
     "prepack": "prebuildify-ci download && ([ $(ls prebuilds | wc -l) = '5' ] || (echo 'Some prebuilds are missing'; exit 1))",
-    "test:cov": "nyc mocha --expose-gc --reporter spec",
+    "test:cov": "nyc --reporter=lcov mocha --expose-gc --reporter spec",
     "test": "mocha --expose-gc --reporter spec test/**/*.js",
+    "test:full": "npm run test:build && npm run test:cov && npm run ts-test",
     "mocha": "mocha",
-    "test:build": "node-gyp rebuild --directory test"
+    "test:build": "node-gyp rebuild --directory test",
+    "ts-node": "ts-node",
+    "ts-test": "node -r ts-node/register ./test/typescript/ffi-napi-tests.ts"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/node-ffi-napi/node-ffi-napi.git"
+    "url": "http://github.com/ffi-cross/js-ffi-cross.git"
   },
   "bugs": {
-    "url": "http://github.com/node-ffi-napi/node-ffi-napi/issues"
+    "url": "http://github.com/ffi-cross/js-ffi-cross/issues"
   }
 }

@@ -263,6 +263,11 @@ void FFI::FFICall(const Napi::CallbackInfo& args) {
   char* fn = GetBufferData<char>(args[1]);
   char* res = GetBufferData<char>(args[2]);
   void** fnargs = GetBufferData<void*>(args[3]);
+  if (fn == nullptr) {
+    throw TypeError::New(env, "funcPtr should not be nullptr!");
+  } else if (*(const uint32_t *)fn == 0) {
+    throw TypeError::New(env, "The content of funcPtr pointed are invalid(empty)!");
+  }
 
   ffi_call(cif, FFI_FN(fn), static_cast<void*>(res), fnargs);
 }
@@ -313,8 +318,18 @@ void FFI::AsyncFFICall(uv_work_t* req) {
   AsyncCallParams* p = static_cast<AsyncCallParams*>(req->data);
 
   try {
-    ffi_call(p->cif, FFI_FN(p->fn), p->res, p->argv);
+    const uint32_t * fnContentPtr = (const uint32_t *)p->fn;
+    if (p->fn == nullptr) {
+      p->err = "funcPtr should not be nullptr!";
+      p->result = FFI_BAD_ABI;
+    } else if (*fnContentPtr == 0) {
+      p->err = "The content of funcPtr pointed are invalid(empty)!";
+      p->result = FFI_BAD_ABI;
+    } else {
+      ffi_call(p->cif, FFI_FN(p->fn), p->res, p->argv);
+    }
   } catch (std::exception& e) {
+    p->result = FFI_BAD_ABI;
     p->err = e.what();
   }
 }

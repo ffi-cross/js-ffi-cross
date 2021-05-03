@@ -1,15 +1,13 @@
-node-ffi-napi
-=============
-### Node.js Foreign Function Interface for N-API
-[![Greenkeeper badge](https://badges.greenkeeper.io/node-ffi-napi/node-ffi-napi.svg)](https://greenkeeper.io/)
+# js-ffi-cross
 
-[![NPM Version](https://img.shields.io/npm/v/ffi-napi.svg?style=flat)](https://npmjs.org/package/ffi-napi)
-[![NPM Downloads](https://img.shields.io/npm/dm/ffi-napi.svg?style=flat)](https://npmjs.org/package/ffi-napi)
-[![Build Status](https://travis-ci.org/node-ffi-napi/node-ffi-napi.svg?style=flat&branch=master)](https://travis-ci.org/node-ffi-napi/node-ffi-napi?branch=master)
-[![Coverage Status](https://coveralls.io/repos/node-ffi-napi/node-ffi-napi/badge.svg?branch=master)](https://coveralls.io/r/node-ffi-napi/node-ffi-napi?branch=master)
-[![Dependency Status](https://david-dm.org/node-ffi-napi/node-ffi-napi.svg?style=flat)](https://david-dm.org/node-ffi-napi/node-ffi-napi)
+Foreign Function Interface for JavaScript(NodeJS/QuickJS)
 
-`node-ffi-napi` is a Node.js addon for loading and calling dynamic libraries
+[![NPM Version](https://img.shields.io/npm/v/ffi-cross.svg?style=flat)](https://npmjs.org/package/ffi-cross)
+[![NPM Downloads](https://img.shields.io/npm/dm/ffi-cross.svg?style=flat)](https://npmjs.org/package/ffi-cross)
+[![Coverage Status](https://coveralls.io/repos/github/ffi-cross/js-ffi-cross/badge.svg?branch=master)](https://coveralls.io/github/ffi-cross/js-ffi-cross?branch=master)
+[![Dependency Status](https://david-dm.org/ffi-cross/js-ffi-cross.svg?style=flat)](https://david-dm.org/ffi-cross/js-ffi-cross)
+
+`js-ffi-cross` is a Node.js addon for loading and calling dynamic libraries
 using pure JavaScript. It can be used to create bindings to native libraries
 without writing any C++ code.
 
@@ -18,7 +16,7 @@ handling the translation of types across JavaScript and C, which can add reams
 of boilerplate code to your otherwise simple C. See the `example/factorial`
 for an example of this use case.
 
-**WARNING**: `node-ffi-napi` assumes you know what you're doing. You can pretty
+**WARNING**: `js-ffi-cross` assumes you know what you're doing. You can pretty
 easily create situations where you will segfault the interpreter and unless
 you've got C debugger skills, you probably won't know what's going on.
 
@@ -28,80 +26,88 @@ in the context of garbage collection and multi-threaded execution. It is
 recommended to avoid any multi-threading usage of this library
 if possible.
 
-Example
--------
+## Example
 
 ``` js
-var ffi = require('ffi-napi');
+const ffi = require('ffi-cross');
 
-var libm = ffi.Library('libm', {
-  'ceil': [ 'double', [ 'double' ] ]
+const libm = ffi.Library('libm', {
+  'ceil': [ ffi.types.double [ ffi.types.double ] ]
 });
 libm.ceil(1.5); // 2
 
 // You can also access just functions in the current process by passing a null
-var current = ffi.Library(null, {
-  'atoi': [ 'int', [ 'string' ] ]
+const current = ffi.Library(null, {
+  'atoi': [ ffi.types.int, [ ffi.types.CString ] ]
 });
 current.atoi('1234'); // 1234
 ```
 
-For a more detailed introduction, see the [node-ffi tutorial page][tutorial].
+For a more detailed introduction, see the [js-ffi-cross tutorial page][tutorial].
 
-Requirements
-------------
+## Requirements
 
- * Linux, OS X, Windows, or Solaris.
- * `libffi` comes bundled with node-ffi-napi; it does *not* need to be installed on your system.
- * The current version is tested to run on Node 6 and above.
+* Linux, OS X, Windows, or Solaris.
+* `libffi` comes bundled with js-ffi-cross; it does *not* need to be installed on your system.
+* The current version is tested to run on Node 12 and above.
 
-Installation
-------------
+## Installation
 
 Make sure you've installed all the [necessary build
 tools](https://github.com/TooTallNate/node-gyp#installation) for your platform,
 then invoke:
 
 ``` bash
-$ npm install ffi-napi
+npm install ffi-cross
 ```
 
-Source Install / Manual Compilation
------------------------------------
+## Source Install / Manual Compilation
 
-To compile from source it's easiest to use
-[`node-gyp`](https://github.com/TooTallNate/node-gyp):
+Now you can compile `js-ffi-cross`:
 
 ``` bash
-$ npm install -g node-gyp
+git clone git://github.com/ffi-cross/js-ffi-cross.git
+cd js-ffi-cross
+npm i
+npm run prebuild
 ```
 
-Now you can compile `node-ffi-napi`:
+Building debug version:
 
-``` bash
-$ git clone git://github.com/node-ffi-napi/node-ffi-napi.git
-$ cd node-ffi
-$ node-gyp rebuild
+```bash
+npm run prebuild:debug
 ```
 
-Types
------
+## Testing
+
+On Win32, should install chocolatey and sqlite3 with `Administrator` permission powershell
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+choco install -y --no-progress sqlite
+```
+
+On Debian and decendent Linux, should install sqlite3 with:
+
+```bash
+sudo apt-get install -y libsqlite3-dev
+```
+
+## Types
 
 The types that you specify in function declarations correspond to ref's types
 system. So [see its docs][ref-types] for
 a reference if you are unfamiliar.
 
-V8 and 64-bit Types
--------------------
+## V8 and 64-bit Types
 
 Internally, V8 stores integers that will fit into a 32-bit space in a 32-bit
 integer, and those that fall outside of this get put into double-precision
 floating point numbers. This is problematic because FP numbers are imprecise.
-To get around this, the methods in node-ffi that deal with 64-bit integers return
+To get around this, the methods in js-ffi-cross that deal with 64-bit integers return
 strings and can accept strings as parameters.
 
-Call Overhead
--------------
+## Call Overhead
 
 There is non-trivial overhead associated with FFI calls. Comparing a hard-coded
 binding version of `strtoul()` to an FFI version of `strtoul()` shows that the
@@ -109,11 +115,9 @@ native hard-coded binding is orders of magnitude faster. So don't just use the
 C version of a function just because it's faster. There's a significant cost in
 FFI calls, so make them worth it.
 
-License
--------
+## License
 
 MIT License. See the `LICENSE` file.
 
-[v1apichanges]: https://github.com/node-ffi/node-ffi/wiki/API-changes-from-v0.x-to-v1.x
-[tutorial]: https://github.com/node-ffi/node-ffi/wiki/Node-FFI-Tutorial
-[ref-types]: https://github.com/TooTallNate/ref#built-in-types
+[tutorial]: https://github.com/ffi-cross/js-ffi-cross/blob/master/docs/tutorial.md
+[ref-types]: https://github.com/ffi-cross/js-ffi-cross/blob/master/docs/ref.md#the-built-in-types

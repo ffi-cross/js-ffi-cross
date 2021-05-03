@@ -26,3 +26,5 @@ deps/libffi/local.exp
 vgcore.*
 
 prebuilds/
+
+test.sqlite3

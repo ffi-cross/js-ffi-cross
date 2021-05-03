@@ -74,7 +74,8 @@
               '<(INTERMEDIATE_DIR)/<(RULE_INPUT_ROOT).asm',
             ],
             'action': [
-              'call',
+              'cmd',
+              "/c",
               'preprocess_asm.cmd',
                 'include',
                 'config/<(OS)/<(target_arch)',
