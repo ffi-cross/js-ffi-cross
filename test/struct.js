@@ -1,25 +1,24 @@
 'use strict';
-var assert = require('assert')
-  , ref = require('ref')
-  , ArrayType = require('ref-array')
-  , Struct = require('../')(ref)
-  , bindings = require('bindings')({ module_root: __dirname, bindings: 'struct_tests' })
+
+const assert = require("assert")
+const { ref, ArrayType, StructType } = require("../")
+const bindings = require('node-gyp-build')(__dirname).structTest;
 
 describe('Struct', function () {
 
   afterEach(gc)
 
   it('should be a function', function () {
-    assert.equal('function', typeof Struct)
+    assert.equal('function', typeof StructType)
   })
 
   it('should return a struct constuctor function', function () {
-    var S = Struct()
+    var S = StructType()
     assert.equal('function', typeof S)
   })
 
   it('should throw when the same field name is speicified more than once', function () {
-    var S = Struct({ a: ref.types.int })
+    var S = StructType({ a: ref.types.int })
     assert.throws(function () {
       S.defineProperty('a', ref.types.int)
     })
@@ -27,12 +26,12 @@ describe('Struct', function () {
 
   it('should throw when given a type with "size" == 0', function () {
     assert.throws(function () {
-      Struct({ v: 'void' })
+      StructType({ v: 'void' })
     })
   })
 
   it('should work in a simple case', function () {
-    var SimpleStruct = Struct({
+    var SimpleStruct = StructType({
         'first': ref.types.byte
       , 'last':  ref.types.byte
     })
@@ -45,7 +44,7 @@ describe('Struct', function () {
   })
 
   it('should work in a more complex case', function () {
-    var MegaStruct = Struct({
+    var MegaStruct = StructType({
         'byteVal': ref.types.byte
       , 'int8Val': ref.types.int8
       , 'int16Val': ref.types.int16
@@ -56,7 +55,7 @@ describe('Struct', function () {
       , 'doubleVal': ref.types.double
       , 'pointer': ref.refType('void')
     })
-    var msTestPtr = new Buffer(1)
+    var msTestPtr = Buffer.alloc(1)
     var ms = new MegaStruct({
         byteVal: 100
       , int8Val: -100
@@ -81,11 +80,11 @@ describe('Struct', function () {
 
   it('should allow Struct nesting', function () {
 
-    var ChildStruct = Struct({
+    var ChildStruct = StructType({
         'a': ref.types.int
       , 'b': ref.types.int
     })
-    var ParentStruct = Struct({
+    var ParentStruct = StructType({
         'childA': ChildStruct
       , 'childB': ChildStruct
     })
@@ -104,7 +103,7 @@ describe('Struct', function () {
   describe('string type identifiers', function () {
 
     it('should work with string type identifiers', function () {
-      var S = Struct({
+      var S = StructType({
           'int': 'int'
         , 'long': 'long'
         , 'string': 'string'
@@ -116,7 +115,7 @@ describe('Struct', function () {
     })
 
     it('should work as expected with "void *" as a type', function () {
-      var S = Struct({
+      var S = StructType({
         'ptr1': 'void *',
         'ptr2': 'void *'
       })
@@ -133,7 +132,7 @@ describe('Struct', function () {
   describe('set()', function () {
 
     it('should work to set() an Object', function () {
-      var Foo = Struct({
+      var Foo = StructType({
         test1: ref.types.int,
         test2: ref.types.int
       });
@@ -161,7 +160,7 @@ describe('Struct', function () {
 
     it('should work to set() a Struct instance', function () {
       // see: https://github.com/TooTallNate/ref-struct/issues/11
-      var Foo = Struct({
+      var Foo = StructType({
         test1: ref.types.int,
         test2: ref.types.int
       });
@@ -192,7 +191,7 @@ describe('Struct', function () {
   describe('ref(), deref()', function () {
 
     it('should work to ref() and then deref() 1 level deep', function () {
-      var S = Struct({ d: 'double' })
+      var S = StructType({ d: 'double' })
       var s = new S({ d: Math.PI })
       var sref = s.ref()
       assert(Buffer.isBuffer(sref))
@@ -228,56 +227,56 @@ describe('Struct', function () {
       })
     }
 
-    var test1 = Struct({
+    var test1 = StructType({
         'a': ref.types.int
       , 'b': ref.types.int
       , 'c': ref.types.double
     })
     test(test1, 1)
 
-    var test2 = Struct({
+    var test2 = StructType({
         'a': ref.types.int
       , 'b': ref.types.double
       , 'c': ref.types.int
     })
     test(test2, 2)
 
-    var test3 = Struct({
+    var test3 = StructType({
         'a': ref.types.double
       , 'b': ref.types.int
       , 'c': ref.types.int
     })
     test(test3, 3)
 
-    var test4 = Struct({
+    var test4 = StructType({
         'a': ref.types.double
       , 'b': ref.types.double
       , 'c': ref.types.int
     })
     test(test4, 4)
 
-    var test5 = Struct({
+    var test5 = StructType({
         'a': ref.types.int
       , 'b': ref.types.double
       , 'c': ref.types.double
     })
     test(test5, 5)
 
-    var test6 = Struct({
+    var test6 = StructType({
         'a': ref.types.char
       , 'b': ref.types.short
       , 'c': ref.types.int
     })
     test(test6, 6)
 
-    var test7 = Struct({
+    var test7 = StructType({
         'a': ref.types.int
       , 'b': ref.types.short
       , 'c': ref.types.char
     })
     test(test7, 7)
 
-    var test8 = Struct({
+    var test8 = StructType({
         'a': ref.types.int
       , 'b': ref.types.short
       , 'c': ref.types.char
@@ -285,7 +284,7 @@ describe('Struct', function () {
     })
     test(test8, 8)
 
-    var test9 = Struct({
+    var test9 = StructType({
         'a': ref.types.int
       , 'b': ref.types.short
       , 'c': ref.types.char
@@ -294,13 +293,13 @@ describe('Struct', function () {
     })
     test(test9, 9)
 
-    var test10 = Struct({
+    var test10 = StructType({
         'a': test1
       , 'b': ref.types.char
     })
     test(test10, 10)
 
-    var test11 = Struct()
+    var test11 = StructType()
     test11.defineProperty('a', ref.types.size_t)
     test11.defineProperty('b', ref.types.ushort)
     test11.defineProperty('c', ref.types.ushort)
@@ -309,19 +308,19 @@ describe('Struct', function () {
     test11.defineProperty('d', test11_ptr_ptr)
     test(test11, 11)
 
-    var test12 = Struct({
+    var test12 = StructType({
         'a': ref.refType(ref.types.char)
       , 'b': ref.types.int
     })
     test(test12, 12)
 
-    var test13 = Struct({
+    var test13 = StructType({
         'a': ref.types.char
       , 'b': ArrayType('char', 2)
     })
     test(test13, 13)
 
-    var test14 = Struct({
+    var test14 = StructType({
         'a': ref.types.char
       , 'b': ArrayType('char', 2)
       , 'c': ref.types.short
@@ -329,25 +328,25 @@ describe('Struct', function () {
     })
     test(test14, 14)
 
-    var test15 = Struct({
+    var test15 = StructType({
         'a': test1
       , 'b': test1
     })
     test(test15, 15)
 
-    var test16 = Struct({
+    var test16 = StructType({
         'a': ArrayType('double', 10)
       , 'b': ArrayType('char', 3)
       , 'c': ArrayType('int', 6)
     })
     test(test16, 16)
 
-    var test17 = Struct({
+    var test17 = StructType({
         'a': ArrayType('char', 3)
     })
     test(test17, 17)
 
-    var test18 = Struct({
+    var test18 = StructType({
         'a': ArrayType(test17, 100)
     })
     test(test18, 18)
@@ -355,7 +354,7 @@ describe('Struct', function () {
     // this example from libdespotify
     // see: https://github.com/TooTallNate/ref-struct/issues/1
     var STRING_LENGTH = 256;
-    var test19 = Struct();
+    var test19 = StructType();
     test19.defineProperty('has_meta_data', 'bool');
     test19.defineProperty('playable', 'bool');
     test19.defineProperty('geo_restricted', 'bool');
@@ -382,11 +381,11 @@ describe('Struct', function () {
   describe('packed struct', function () {
 
     it('with-padding/no-padding struct', function () {
-      var np = Struct({ a: 'char', p: ref.refType('void') }, {packed: true})
+      var np = StructType({ a: 'char', p: ref.refType('void') }, {packed: true})
       assert.equal(bindings['test20 sizeof'], np.size)
       assert.equal(bindings['test20 alignof'], np.alignment)
 
-      var wp = Struct({ a: 'char', p: ref.refType('void') })
+      var wp = StructType({ a: 'char', p: ref.refType('void') })
       assert.equal(bindings['test21 sizeof'], wp.size)
       assert.equal(bindings['test21 alignof'], wp.alignment)
     })
