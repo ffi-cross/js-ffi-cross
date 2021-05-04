@@ -2,7 +2,7 @@ import * as path from "path";
 import * as assert from "assert";
 import * as ffi from "../../";
 
-const { ref, StructType, types, UnionType, ArrayType } = ffi;
+const { ref, StructType, types, UnionType, ArrayType, buffer } = ffi;
 {
   const normalStruct = StructType({
     t: types.uint8,
@@ -66,13 +66,13 @@ const { ref, StructType, types, UnionType, ArrayType } = ffi;
 {
   const str = ref.readCString(Buffer.from("hello\0world\0"), 0);
   const buf = ref.alloc(types.int64);
-  ref.writeInt64BE(buf, 0, "9223372036854775807");
-  const val = ref.readInt64BE(buf, 0);
+  buffer.writeBigInt64BE(buf, 9223372036854775807n, 0);
+  const val = buffer.readBigInt64BE(buf, 0);
 }
 {
   const voidPtrType = ref.refType(types.void);
   const buf = ref.alloc(types.int64);
-  ref.writeInt64LE(buf, 0, "9223372036854775807");
+  buffer.writeBigInt64LE(buf, 9223372036854775807n, 0);
 }
 {
   const S1 = StructType({ a: types.int });
@@ -139,7 +139,7 @@ const { ref, StructType, types, UnionType, ArrayType } = ffi;
   const lib =
     process.platform == "win32"
       ? path.join(
-          process.env.ProgramData ?? "",
+          process.env.ProgramData || "",
           "chocolatey/lib/SQLite/tools/sqlite3.dll"
         )
       : "libsqlite3";

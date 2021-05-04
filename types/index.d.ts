@@ -6,6 +6,7 @@
 export * as ref from './lib/ref'
 import { Type } from './lib/ref-type'
 export { Type } from './lib/ref-type'
+export * as buffer from './lib/ref-buffer'
 
 import { StructType } from './lib/ref-struct';
 export { StructType } from './lib/ref-struct';

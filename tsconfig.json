@@ -2,8 +2,9 @@
     "compilerOptions": {
         "module": "commonjs",
         "lib": [
-            "es6"
+            "es2020"
         ],
+        "target": "es2020",
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strictNullChecks": true,
@@ -16,7 +17,10 @@
         "noEmit": true,
         "forceConsistentCasingInFileNames": true
     },
-    "include": ["types/**/*"],
+    "include": [
+        "types/**/*ts",
+        "test/typescript/**/*.ts",
+    ],
     "files": [
         "types/index.d.ts"
     ]

@@ -41,38 +41,11 @@ export declare function isNull(buffer: Buffer): boolean;
 /** Read C string until the first NULL. */
 export declare function readCString(buffer: Buffer, offset?: number): string;
 
-/**
- * Read a big-endian signed 64-bit int.
- * If there is losing precision, then return a string, otherwise a number.
- * @return {number|string}
- */
-export declare function readInt64BE(buffer: Buffer, offset?: number): any;
-
-/**
- * Read a little-endian signed 64-bit int.
- * If there is losing precision, then return a string, otherwise a number.
- * @return {number|string}
- */
-export declare function readInt64LE(buffer: Buffer, offset?: number): any;
-
 /** Read a JS Object that has previously been written. */
 export declare function readObject(buffer: Buffer, offset?: number): Object;
 /** Read data from the pointer. */
 export declare function readPointer(buffer: Buffer, offset?: number,
     length?: number): Buffer;
-/**
- * Read a big-endian unsigned 64-bit int.
- * If there is losing precision, then return a string, otherwise a number.
- * @return {number|string}
- */
-export declare function readUInt64BE(buffer: Buffer, offset?: number): any;
-
-/**
- * Read a little-endian unsigned 64-bit int.
- * If there is losing precision, then return a string, otherwise a number.
- * @return {number|string}
- */
-export declare function readUInt64LE(buffer: Buffer, offset?: number): any;
 
 /** Create pointer to buffer. */
 export declare function ref<T>(buffer: Buffer | ArrayTypeValue<T>): Buffer;
@@ -97,14 +70,6 @@ export declare function reinterpretUntilZeros(buffer: Buffer, size: number,
 export declare function set<T>(buffer: Buffer, offset: number, value: any, type?: Type<T>): void;
 /** Write the string as a NULL terminated. Default encoding is utf8. */
 export declare function writeCString(buffer: Buffer, string: string, offset: number, encoding?: string): void;
-/** Write a big-endian signed 64-bit int. */
-export declare function writeInt64BE(buffer: Buffer, offset: number, input: number): void;
-/** Write a big-endian signed 64-bit int. */
-export declare function writeInt64BE(buffer: Buffer, offset: number, input: string): void;
-/** Write a little-endian signed 64-bit int. */
-export declare function writeInt64LE(buffer: Buffer, offset: number, input: number): void;
-/** Write a little-endian signed 64-bit int. */
-export declare function writeInt64LE(buffer: Buffer, offset: number, input: string): void;
 
 /**
  * Write the JS Object. This function "attaches" object to buffer to prevent
@@ -117,11 +82,6 @@ export declare function writeObject(buffer: Buffer, object: Object, offset: numb
  * function "attaches" object to buffer to prevent it from being garbage collected.
  */
 export declare function writePointer(buffer: Buffer, pointer: Buffer, offset?: number): void;
-
-/** Write a little-endian unsigned 64-bit int. */
-export declare function writeUInt64BE(buffer: Buffer, offset: number, input: number): void;
-/** Write a little-endian unsigned 64-bit int. */
-export declare function writeUInt64BE(buffer: Buffer, offset: number, input: string): void;
 
 /**
  * Attach object to buffer such.

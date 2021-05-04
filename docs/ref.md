@@ -202,44 +202,6 @@ console.log(str);
 'hello'
 ```
 
-### ref.readInt64BE(Buffer buffer, Number offset) → Number|String
-
-* buffer - The buffer to read a Buffer from.
-* offset - The offset to begin reading from.
-* **Return:** The Number or String that was read from _buffer_.
-
-Returns a big-endian signed 64-bit int read from _buffer_ at the given _offset_.
-
-If the returned value will fit inside a JavaScript Number without losing precision, then a Number is returned, otherwise a String is returned.
-
-```js
-var buf = ref.alloc('int64');
-ref.writeInt64BE(buf, 0, '9223372036854775807');
-
-var val = ref.readInt64BE(buf, 0)
-console.log(val)
-'9223372036854775807'
-```
-
-### ref.readInt64LE(Buffer buffer, Number offset) → Number|String
-
-* buffer - The buffer to read a Buffer from.
-* offset - The offset to begin reading from.
-* **Return:** The Number or String that was read from _buffer_.
-
-Returns a little-endian signed 64-bit int read from _buffer_ at the given _offset_.
-
-If the returned value will fit inside a JavaScript Number without losing precision, then a Number is returned, otherwise a String is returned.
-
-```js
-var buf = ref.alloc('int64');
-ref.writeInt64LE(buf, 0, '9223372036854775807');
-
-var val = ref.readInt64LE(buf, 0)
-console.log(val)
-'9223372036854775807'
-```
-
 ### ref.readObject(Buffer buffer, Number offset) → Object
 
 * buffer - The buffer to read an Object from.
@@ -273,44 +235,6 @@ var pointer = ref.alloc('pointer');
 var buf2 = ref.readPointer(pointer, 0, buf.length);
 console.log(buf.toString());
 'hello world'
-```
-
-### ref.readUInt64BE(Buffer buffer, Number offset) → Number|String
-
-* buffer - The buffer to read a Buffer from.
-* offset - The offset to begin reading from.
-* **Return:** The Number or String that was read from _buffer_.
-
-Returns a big-endian unsigned 64-bit int read from _buffer_ at the given _offset_.
-
-If the returned value will fit inside a JavaScript Number without losing precision, then a Number is returned, otherwise a String is returned.
-
-```js
-var buf = ref.alloc('uint64');
-ref.writeUInt64BE(buf, 0, '18446744073709551615');
-
-var val = ref.readUInt64BE(buf, 0)
-console.log(val)
-'18446744073709551615'
-```
-
-### ref.readUInt64LE(Buffer buffer, Number offset) → Number|String
-
-* buffer - The buffer to read a Buffer from.
-* offset - The offset to begin reading from.
-* **Return:** The Number or String that was read from _buffer_.
-
-Returns a little-endian unsigned 64-bit int read from _buffer_ at the given _offset_.
-
-If the returned value will fit inside a JavaScript Number without losing precision, then a Number is returned, otherwise a String is returned.
-
-```js
-var buf = ref.alloc('uint64');
-ref.writeUInt64LE(buf, 0, '18446744073709551615');
-
-var val = ref.readUInt64LE(buf, 0)
-console.log(val)
-'18446744073709551615'
 ```
 
 ### ref.ref(Buffer buffer) → Buffer
@@ -383,32 +307,6 @@ Writes the given string as a C String (NULL terminated) to the given buffer at t
 
 Unlike `readCString()`, this function requires the buffer to actually have the proper length.
 
-### ref.writeInt64BE(Buffer buffer, Number offset, Number|String input)
-
-* buffer - The buffer to write to.
-* offset - The offset to begin writing from.
-* input - This String or Number which gets written.
-
-Writes the _input_ Number or String as a big-endian signed 64-bit int into _buffer_ at the given _offset_.
-
-```js
-var buf = ref.alloc('int64');
-ref.writeInt64BE(buf, 0, '9223372036854775807');
-```
-
-### ref.writeInt64LE(Buffer buffer, Number offset, Number|String input)
-
-* buffer - The buffer to write to.
-* offset - The offset to begin writing from.
-* input - This String or Number which gets written.
-
-Writes the _input_ Number or String as a little-endian signed 64-bit int into _buffer_ at the given _offset_.
-
-```js
-var buf = ref.alloc('int64');
-ref.writeInt64LE(buf, 0, '9223372036854775807');
-```
-
 ### ref.writeObject(Buffer buffer, Object object, Number offset)
 
 * buffer - A Buffer instance to write _object_ to.
@@ -438,32 +336,6 @@ This function "attaches" _object_ to _buffer_ to prevent it from being garbage c
 var someBuffer = new Buffer('whatever');
 var buf = ref.alloc('pointer');
 ref.writePointer(buf, someBuffer, 0);
-```
-
-### ref.writeUInt64BE(Buffer buffer, Number offset, Number|String input)
-
-* buffer - The buffer to write to.
-* offset - The offset to begin writing from.
-* input - This String or Number which gets written.
-
-Writes the _input_ Number or String as a big-endian unsigned 64-bit int into _buffer_ at the given _offset_.
-
-```js
-var buf = ref.alloc('uint64');
-ref.writeUInt64BE(buf, 0, '18446744073709551615');
-```
-
-### ref.writeUInt64LE(Buffer buffer, Number offset, Number|String input)
-
-* buffer - The buffer to write to.
-* offset - The offset to begin writing from.
-* input - This String or Number which gets written.
-
-Writes the _input_ Number or String as a little-endian unsigned 64-bit int into _buffer_ at the given _offset_.
-
-```js
-var buf = ref.alloc('uint64');
-ref.writeUInt64LE(buf, 0, '18446744073709551615');
 ```
 
 ### ref._attach(Buffer buffer, Object|Buffer object)

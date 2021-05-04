@@ -20,7 +20,7 @@ describe('ffi_cif', function () {
 
   it('should throw an Error when given an invalid "type"', function () {
     const ffi_type = new ffi.FFI_TYPE;
-    ffi_type.size = 0;
+    ffi_type.size = 0n;
     ffi_type.alignment = 0;
     ffi_type.type = 0;
     ffi_type.elements = ref.NULL;
