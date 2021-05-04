@@ -75,7 +75,7 @@ describe('C string', function() {
   describe('CString', function() {
     it('should return JS `null` when given a pointer pointing to NULL', function() {
       const buf = ref.alloc(ref.types.CString);
-      buf.writePointer(ref.NULL);
+      ref.writePointer(buf, ref.NULL);
       assert.strictEqual(null, ref.deref(buf));
 
       // another version of the same test
@@ -85,7 +85,7 @@ describe('C string', function() {
     it('should read a utf8 string from a Buffer', function() {
       const str = 'hello world';
       const buf = ref.alloc(ref.types.CString);
-      buf.writePointer(Buffer.from(str + '\0'));
+      ref.writePointer(buf, Buffer.from(str + '\0'));
       assert.strictEqual(str, ref.deref(buf));
     });
 

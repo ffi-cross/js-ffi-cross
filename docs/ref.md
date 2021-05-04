@@ -429,11 +429,11 @@ var buf = ref.alloc('Object');
 ref.writeObject(buf, 0, { foo: 'bar' });
 ```
 
-### ref.writePointer(Buffer buffer, Number offset, Buffer pointer)
+### ref.writePointer(Buffer buffer, Buffer pointer, Number offset)
 
 * buffer - A Buffer instance to write _pointer to.
-* offset - The offset on the Buffer to start writing at.
 * pointer - The Buffer instance whose memory address will be written to _buffer_.
+* offset - The offset on the Buffer to start writing at.
 
 Writes the memory address of _pointer_ to _buffer_ at the specified _offset_.
 
@@ -442,7 +442,7 @@ This function "attaches" _object_ to _buffer_ to prevent it from being garbage c
 ```js
 var someBuffer = new Buffer('whatever');
 var buf = ref.alloc('pointer');
-ref.writePointer(buf, 0, someBuffer);
+ref.writePointer(buf, someBuffer, 0);
 ```
 
 ### ref.writeUInt64BE(Buffer buffer, Number offset, Number|String input)
@@ -504,11 +504,11 @@ Same as `ref.reinterpretUntilZeros()`, except that this version does not attach 
 
 Same as `ref.writeObject()`, except that this version does not _attach_ the Object to the Buffer, which is potentially unsafe if the garbage collector runs.
 
-### ref._writePointer(Buffer buffer, Number offset, Buffer pointer)
+### ref._writePointer(Buffer buffer, Buffer pointer, Number offset)
 
 * buffer - A Buffer instance to write _pointer to.
-* offset - The offset on the Buffer to start writing at.
 * pointer - The Buffer instance whose memory address will be written to _buffer_.
+* offset - The offset on the Buffer to start writing at.
 
 Same as `ref.writePointer()`, except that this version does not attach _pointer_ to _buffer_, which is potentially unsafe if the garbage collector runs.
 

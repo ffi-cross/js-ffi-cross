@@ -280,14 +280,14 @@ Value ReadPointer(const CallbackInfo& args) {
  * to the "input" Buffer.
  *
  * args[0] - Buffer - the "buf" Buffer instance to write to
- * args[1] - Number - the offset from the "buf" buffer's address to write to
- * args[2] - Buffer - the "input" Buffer whose memory address will be written
+ * args[1] - Buffer - the "input" Buffer whose memory address will be written
+ * args[2] - Number - the offset from the "buf" buffer's address to write to
  */
 
 void WritePointer(const CallbackInfo& args) {
   Env env = args.Env();
-  char* ptr = AddressForArgs(args);
-  Value input = args[2];
+  char* ptr = AddressForArgs(args, 2);
+  Value input = args[1];
 
   if (!input.IsNull() && !input.IsBuffer()) {
     throw TypeError::New(env, "writePointer: Buffer instance expected as third argument");
@@ -302,7 +302,7 @@ void WritePointer(const CallbackInfo& args) {
       // collected after the finalizers for the buffer
       // to which the pointer was written have already run
       Reference<Value>* ref = new Reference<Value>;
-      *ref = Persistent(args[2]);
+      *ref = Persistent(input);
       args[0].As<Object>().AddFinalizer([](Env env, Reference<Value>* ref) {
         delete ref;
       }, ref);

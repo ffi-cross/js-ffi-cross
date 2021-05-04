@@ -117,8 +117,7 @@ export declare function writeObject(buffer: Buffer, offset: number, object: Obje
  * Write the memory address of pointer to buffer at the specified offset. This
  * function "attaches" object to buffer to prevent it from being garbage collected.
  */
-export declare function writePointer(buffer: Buffer, offset: number,
-    pointer: Buffer): void;
+export declare function writePointer(buffer: Buffer, pointer: Buffer, offset?: number): void;
 
 /** Write a little-endian unsigned 64-bit int. */
 export declare function writeUInt64BE(buffer: Buffer, offset: number, input: number): void;
@@ -138,7 +137,6 @@ export declare function _reinterpret(buffer: Buffer, size: number,
 export declare function _reinterpretUntilZeros(buffer: Buffer, size: number,
     offset?: number): Buffer;
 /** Same as ref.writePointer, except that this version does not attach pointer. */
-export declare function _writePointer(buffer: Buffer, offset: number,
-    pointer: Buffer): void;
+export declare function _writePointer(buffer: Buffer, pointer: Buffer, offset: number): void;
 /** Same as ref.writeObject, except that this version does not attach object. */
 export declare function _writeObject(buffer: Buffer, offset: number, object: Object): void;

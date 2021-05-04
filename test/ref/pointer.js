@@ -11,7 +11,7 @@ describe('pointer', function() {
 
   it('should write and read back a pointer (Buffer) in a Buffer', function() {
     const buf = Buffer.alloc(ref.sizeof.pointer);
-    ref.writePointer(buf, 0, test)
+    ref.writePointer(buf, test, 0)
     const out = ref.readPointer(buf, 0, test.length);
     assert.strictEqual(out.length, test.length)
     for (let i = 0, l = out.length; i < l; i++) {
@@ -30,7 +30,7 @@ describe('pointer', function() {
 
     weak(child, () => { child_gc = true });
     weak(parent, () => { parent_gc = true });
-    ref.writePointer(parent, 0, child);
+    ref.writePointer(parent, child, 0);
     assert(!child_gc, '"child" has been garbage collected too soon');
     assert(!parent_gc, '"parent" has been garbage collected too soon');
 
@@ -65,7 +65,7 @@ describe('pointer', function() {
 
   it('should return a 0-length Buffer when reading a NULL pointer', function() {
     const buf = Buffer.alloc(ref.sizeof.pointer);
-    ref.writePointer(buf, 0, ref.NULL);
+    ref.writePointer(buf, ref.NULL, 0);
     const out = ref.readPointer(buf, 0, 100);
     assert.strictEqual(out.length, 0);
   })
@@ -75,8 +75,8 @@ describe('pointer', function() {
       const buf = Buffer.alloc(ref.sizeof.pointer * 2);
       const a = Buffer.from('hello');
       const b = Buffer.from('world');
-      buf.writePointer(a, 0 * ref.sizeof.pointer);
-      buf.writePointer(b, 1 * ref.sizeof.pointer);
+      ref.writePointer(buf, a, 0 * ref.sizeof.pointer);
+      ref.writePointer(buf, b, 1 * ref.sizeof.pointer);
       const _a = ref.readPointer(buf, 0 * ref.sizeof.pointer);
       const _b = ref.readPointer(buf, 1 * ref.sizeof.pointer);
       assert.strictEqual(a.address(), _a.address());
