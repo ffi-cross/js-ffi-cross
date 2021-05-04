@@ -55,19 +55,19 @@ describe('C string', function() {
 
     it('should return the NULL pointer for `null` values', function() {
       const buf = ref.allocCString(null);
-      assert(buf.isNull());
+      assert(ref.isNull(buf));
       assert.strictEqual(0, buf.address());
     });
 
     it('should return the NULL pointer for `undefined` values', function() {
       const buf = ref.allocCString(undefined);
-      assert(buf.isNull());
+      assert(ref.isNull(buf));
       assert.strictEqual(0, buf.address());
     });
 
     it('should return the NULL pointer for a NULL pointer Buffer', function() {
       const buf = ref.allocCString(ref.NULL);
-      assert(buf.isNull());
+      assert(ref.isNull(buf));
       assert.strictEqual(0, buf.address());
     })
   });
