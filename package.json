@@ -9,12 +9,15 @@
     "Nathan Rajlich <nathan@tootallnate.net>",
     "Gabor Mezo <gabor.mezo@outlook.com>"
   ],
-  "description": "A foreign function interface (FFI) for Node.js, N-API style",
+  "description": "A foreign function interface (FFI) for Node.js/QuickJs/JerryScript, N-API style",
   "keywords": [
     "foreign",
     "function",
     "interface",
     "ffi",
+    "ffi-napi",
+    "ffi-cross",
+    "js-ffi-cross",
     "libffi",
     "binding",
     "c",

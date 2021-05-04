@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 
-var fs = require('fs')
-  , ref = require('ref')
-  , ffi = require('../')
+const fs = require('fs')
+const ffi = require('../')
+const { ref } = ffi
 
 /**
  * The filename of the sqlite3 database to use.
@@ -44,7 +44,7 @@ SQLite3.sqlite3_open(dbName, db)
 
 // we don't care about the `sqlite **`, but rather the `sqlite *` that it's
 // pointing to, so we must deref()
-db = db.deref()
+db = ref.deref(db)
 
 // execute a couple SQL queries to create the table "foo" and ensure it's empty
 console.log('Creating and/or clearing foo table...')
@@ -67,8 +67,8 @@ var callback = ffi.Callback('int', ['void *', 'int', stringPtr, stringPtr], func
   var obj = {}
 
   for (var i = 0; i < cols; i++) {
-    var colName = colv.deref()
-    var colData = argv.deref()
+    var colName = ref.deref(colv)
+    var colData = ref.deref(argv)
     obj[colName] = colData
   }
 

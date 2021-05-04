@@ -1,4 +1,6 @@
-### Overview
+# ffi-cross tutorial
+
+## Overview
 
 `node-ffi` provides a powerful set of tools for interfacing with dynamic libraries using pure JavaScript in the Node.js environment. It can be used to build interface bindings for libraries without using any C++ code.
 
@@ -11,8 +13,8 @@ Central to the node-ffi infrastructure is the [`ref`][ref] module, which extends
 The primary API for `node-ffi` is through the `Library` function. It is used to specify a dynamic library to link with, as well as a list of functions that should be available for that library. After instantiation, the returned object will have a method for each library function specified in the function, which can be used to easily call the library code.
 
 ``` js
-var ref = require('ref');
-var ffi = require('ffi');
+const ffi = require('ffi-cross');
+const { ref } = ffi;
 
 // typedef
 var sqlite3 = ref.types.void; // we don't know what the layout of "sqlite3" looks like
@@ -31,12 +33,14 @@ var libsqlite3 = ffi.Library('libsqlite3', {
 // now use them:
 var dbPtrPtr = ref.alloc(sqlite3PtrPtr);
 libsqlite3.sqlite3_open("test.sqlite3", dbPtrPtr);
-var dbHandle = dbPtrPtr.deref();
+var dbHandle = ref.deref(dbPtrPtr);
 ```
 
-#### _signature:_
+_signature:_
 
-<pre>ffi.Library(<i>libraryFile</i>, { <i>functionSymbol</i>: [ <i>returnType</i>, [ <i>arg1Type</i>, <i>arg2Type</i>, ... ], ... ]);</pre>
+```js
+ffi.Library(_libraryFile_, { _functionSymbol_: [ _returnType_, [ _arg1Type_, _arg2Type_, ... ], ... ]);
+```
 
 To construct a usable `Library` object, a "libraryFile" String and at least one function must be defined in the specification.
 
@@ -78,9 +82,8 @@ int main()
 The JavaScript code to wrap this library would be:
 
 ``` js
-var ref = require("ref");
-var ffi = require("ffi");
-
+var ffi = require("ffi-cross");
+const { ref } = ffi
 // typedefs
 var myobj = ref.types.void // we don't know what the layout of "myobj" looks like
 var myobjPtr = ref.refType(myobj);
@@ -100,7 +103,7 @@ We could then use it from JavaScript:
 var res = MyLibrary.do_some_number_fudging(1.5, 5);
 var fun_object = MyLibrary.create_object();
 
-if (fun_object.isNull()) {
+if (ref.isNull(fun_object)) {
     console.log("Oh no! Couldn't create object!\n");
 } else {
     MyLibrary.use_string_with_object(fun_object, "Hello World!");
@@ -142,7 +145,7 @@ Note how we've actually defined this method as taking a `int *` parameter, not a
 ``` js
 var outNumber = ref.alloc('int'); // allocate a 4-byte (32-bit) chunk for the output data
 libmylibrary.manipulate_number(outNumber);
-var actualNumber = outNumber.deref();
+var actualNumber = ref.deref(outNumber);
 ```
 
 Once we've called the function, our value is now stored in the memory we've allocated in `outNumber`. To extract it, we have to read the 32-bit signed integer value into a JavaScript Number value by calling the `.deref()` function.
@@ -162,7 +165,6 @@ var buffer = new Buffer(32); // allocate 32 bytes for the output data, an imagin
 libmylibrary.get_md5_string(buffer);
 var actualString = ref.readCString(buffer, 0);;
 ```
-
 
 ### Async Library Calls
 
@@ -189,22 +191,24 @@ libmylibrary.mycall.async(1234, function (err, res) {
 
 The native library can call functions inside the javascript. The `ffi.Callback` function returns a pointer that can be passed to the native library.
 
-#### _signature:_
+_signature:_
 
-<pre>ffi.Callback(<i>returnType</i>, [ <i>arg1Type</i>, <i>arg2Type</i>, ... ], <i>function</i>);</pre>
+```js
+ffi.Callback(_returnType_, [ _arg1Type_, _arg2Type_, ... ], _function_);
+```
 
 Example:
 
 ``` js
-var ffi = require('ffi');
+const ffi = require('ffi-cross');
 
 // Interface into the native lib
-var libname = ffi.Library('./libname', {
+const libname = ffi.Library('./libname', {
   'setCallback': ['void', ['pointer']]
 });
 
 // Callback from the native lib back into js
-var callback = ffi.Callback('void', ['int', 'string'],
+const callback = ffi.Callback('void', ['int', 'string'],
   function(id, name) {
     console.log("id: ", id);
     console.log("name: ", name);
@@ -224,23 +228,21 @@ The native library can call this callback even in another thread. The javascript
 
 Note that you need to keep a reference to the callback pointer returned by `ffi.Callback` in some way to avoid garbage collection.
 
-
 ### Structs
 
-To provide the ability to read and write C-style data structures, `node-ffi` is compatible with the [`ref-struct`][ref-struct] module. See its documentation for more information about defining Struct types. The returned Struct constructors are valid "types" for use in FFI'd functions, for example `gettimeofday()`:
+To provide the ability to read and write C-style data structures, `js-ffi-cross` provides StructType. See its documentation for more information about defining Struct types. The returned StructType constructors are valid "types" for use in FFI'd functions, for example `gettimeofday()`:
 
 ``` js
-var ref = require('ref');
-var FFI = require('ffi');
-var Struct = require('ref-struct');
+const ffi = require('ffi-cross');
+const { ref, StructType } = ffi;
 
-var TimeVal = Struct({
-  'tv_sec': 'long',
-  'tv_usec': 'long'
+const TimeVal = StructType({
+  'tv_sec': ffi.types.long,
+  'tv_usec': ffi.types.long
 });
 var TimeValPtr = ref.refType(TimeVal);
 
-var lib = new FFI.Library(null, { 'gettimeofday': [ 'int', [ TimeValPtr, "pointer" ] ]});
+var lib = new ffi.Library(null, { 'gettimeofday': [ ffi.types.int, [ TimeValPtr, ffi.types. ] ]});
 var tv = new TimeVal();
 lib.gettimeofday(tv.ref(), null);
 console.log("Seconds since epoch: " + tv.tv_sec);

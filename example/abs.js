@@ -13,17 +13,23 @@
  * it doesn't crash ever.
  */
 
-var ref = require('ref')
-  , ffi = require('../')
-  , assert = require('assert')
+const ffi = require('../')
+const assert = require('assert')
 
-var funcPtr = ffi.Callback('int', [ 'int' ], Math.abs)
-var func = ffi.ForeignFunction(funcPtr, 'int', [ 'int' ])
+var funcPtr = ffi.Callback(ffi.types.int, [ ffi.types.int ], Math.abs)
+var func = ffi.ForeignFunction(funcPtr, ffi.types.int, [ ffi.types.int ])
 
+let count = 0
 function loop () {
   for (var i = 0; i < 100; i++) {
     assert.equal(Math.abs(-i), func(-i))
   }
+  count += 1
+  if (count % 100 == 0) {
+    console.log(Date.now())
+  }
+
+  // Use this to check memory leak
   (typeof setImmediate != 'undefined' ? setImmediate : process.nextTick)(loop)
 }
 loop()
