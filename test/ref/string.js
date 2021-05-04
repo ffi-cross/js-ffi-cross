@@ -25,7 +25,7 @@ describe('C string', function() {
     it('should write a C string (NULL terminated) to a Buffer', function() {
       const buf = Buffer.alloc(20);
       const str = 'hello world';
-      buf.writeCString(str);
+      ref.writeCString(buf, str);
       for (let i = 0; i < str.length; i++) {
         assert.strictEqual(str.charCodeAt(i), buf[i]);
       }
@@ -36,7 +36,7 @@ describe('C string', function() {
       const wholebuf = Buffer.alloc(20, 127);
       const buf = wholebuf.subarray(0, 10);
       const str = 'hello world';
-      buf.writeCString(str);
+      ref.writeCString(buf, str);
       for (let i = 0; i < buf.length - 1; i++) {
         assert.strictEqual(str.charCodeAt(i), buf[i]);
       }

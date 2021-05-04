@@ -379,11 +379,11 @@ Calls the `set()` function of the Buffer's current "type" (or the passed in _typ
 
 This function handles checking the "indirection" level writing a pointer rather than calling the `set()` function if the indirection is greater than 1.
 
-### ref.writeCString(Buffer buffer, Number offset, String string, String encoding)
+### ref.writeCString(Buffer buffer, String string, Number offset, String encoding)
 
 * buffer - The Buffer instance to write to.
-* offset - The offset of the buffer to begin writing at.
 * string - The JavaScript String to write that will be written to the buffer.
+* offset - The offset of the buffer to begin writing at.
 * encoding - (optional) The encoding to read the C string as. Defaults to **'utf8'**.
 
 Writes the given string as a C String (NULL terminated) to the given buffer at the given offset. "encoding" is optional and defaults to **'utf8'**.

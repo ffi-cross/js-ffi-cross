@@ -96,8 +96,7 @@ export declare function reinterpretUntilZeros(buffer: Buffer, size: number,
 /** Write pointer if the indirection is 1, otherwise write value. */
 export declare function set<T>(buffer: Buffer, offset: number, value: any, type?: Type<T>): void;
 /** Write the string as a NULL terminated. Default encoding is utf8. */
-export declare function writeCString(buffer: Buffer, offset: number,
-    string: string, encoding?: string): void;
+export declare function writeCString(buffer: Buffer, string: string, offset: number, encoding?: string): void;
 /** Write a big-endian signed 64-bit int. */
 export declare function writeInt64BE(buffer: Buffer, offset: number, input: number): void;
 /** Write a big-endian signed 64-bit int. */
