@@ -110,7 +110,7 @@ export declare function writeInt64LE(buffer: Buffer, offset: number, input: stri
  * Write the JS Object. This function "attaches" object to buffer to prevent
  * it from being garbage collected.
  */
-export declare function writeObject(buffer: Buffer, offset: number, object: Object): void;
+export declare function writeObject(buffer: Buffer, object: Object, offset: number): void;
 
 /**
  * Write the memory address of pointer to buffer at the specified offset. This
@@ -138,4 +138,4 @@ export declare function _reinterpretUntilZeros(buffer: Buffer, size: number,
 /** Same as ref.writePointer, except that this version does not attach pointer. */
 export declare function _writePointer(buffer: Buffer, pointer: Buffer, offset: number): void;
 /** Same as ref.writeObject, except that this version does not attach object. */
-export declare function _writeObject(buffer: Buffer, offset: number, object: Object): void;
+export declare function _writeObject(buffer: Buffer, object: Object, offset: number): void;

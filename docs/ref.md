@@ -409,11 +409,11 @@ var buf = ref.alloc('int64');
 ref.writeInt64LE(buf, 0, '9223372036854775807');
 ```
 
-### ref.writeObject(Buffer buffer, Number offset, Object object)
+### ref.writeObject(Buffer buffer, Object object, Number offset)
 
 * buffer - A Buffer instance to write _object_ to.
-* offset - The offset on the Buffer to start writing at.
 * object - The Object to be written into _buffer_.
+* offset - The offset on the Buffer to start writing at.
 
 Writes a pointer to _object_ into _buffer_ at the specified _offset.
 
@@ -421,7 +421,7 @@ This function "attaches" _object_ to _buffer_ to prevent it from being garbage c
 
 ```js
 var buf = ref.alloc('Object');
-ref.writeObject(buf, 0, { foo: 'bar' });
+ref.writeObject(buf, { foo: 'bar' }, 0);
 ```
 
 ### ref.writePointer(Buffer buffer, Buffer pointer, Number offset)
@@ -482,11 +482,11 @@ Attaches _object_ to _buffer_ such that it prevents _object_ from being garbage 
 
 Same as `ref.reinterpret()`, except that this version does not attach _buffer_ to the returned Buffer, which is potentially unsafe if the garbage collector runs.
 
-### ref._writeObject(Buffer buffer, Number offset, Object object)
+### ref._writeObject(Buffer buffer, Object object, Number offset)
 
 * buffer - A Buffer instance to write _object_ to.
-* offset - The offset on the Buffer to start writing at.
 * object - The Object to be written into _buffer_.
+* offset - The offset on the Buffer to start writing at.
 
 Same as `ref.writeObject()`, except that this version does not _attach_ the Object to the Buffer, which is potentially unsafe if the garbage collector runs.
 

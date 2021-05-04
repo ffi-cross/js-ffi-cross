@@ -15,7 +15,7 @@ describe('Object', function() {
 
   it('should write and read back an Object in a Buffer', function() {
     const buf = Buffer.alloc(ref.sizeof.Object);
-    ref.writeObject(buf, 0, obj);
+    ref.writeObject(buf, obj, 0);
     const out = ref.readObject(buf);
     assert.strictEqual(obj, out);
     assert.deepEqual(obj, out);
@@ -31,7 +31,7 @@ describe('Object', function() {
 
     weak(o, () => { o_gc = true });
     weak(buf, () => { buf_gc = true });
-    ref.writeObject(buf, 0, o);
+    ref.writeObject(buf, o, 0);
     assert(!o_gc, '"o" has been garbage collected too soon');
     assert(!buf_gc, '"buf" has been garbage collected too soon');
 
@@ -69,8 +69,8 @@ describe('Object', function() {
       const buf = Buffer.alloc(ref.sizeof.Object * 2);
       const a = {};
       const b = {};
-      buf.writeObject(a, 0 * ref.sizeof.Object);
-      buf.writeObject(b, 1 * ref.sizeof.Object);
+      ref.writeObject(buf, a, 0 * ref.sizeof.Object);
+      ref.writeObject(buf, b, 1 * ref.sizeof.Object);
       const _a = buf.readObject(0 * ref.sizeof.Object);
       const _b = buf.readObject(1 * ref.sizeof.Object);
       assert.strictEqual(a, _a);

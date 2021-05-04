@@ -227,24 +227,25 @@ Value ReadObject(const CallbackInfo& args) {
  * instance and offset.
  *
  * args[0] - Buffer - the "buf" Buffer instance to write to
- * args[1] - Number - the offset from the "buf" buffer's address to write to
- * args[2] - Object - the "obj" Object which will have a new Persistent reference
+ * args[1] - Object - the "obj" Object which will have a new Persistent reference
  *                    created for the obj, whose memory address will be written.
+ * args[2] - Number - the offset from the "buf" buffer's address to write to
  */
 
 void WriteObject(const CallbackInfo& args) {
   Env env = args.Env();
-  char* ptr = AddressForArgs(args);
+  char* ptr = AddressForArgs(args, 2);
 
   if (ptr == nullptr) {
     throw Error::New(env, "readObject: Cannot write to nullptr pointer");
   }
 
   Reference<Object>* rptr = reinterpret_cast<Reference<Object>*>(ptr);
-  if (args[2].IsObject()) {
-    Object val = args[2].As<Object>();
+  Value obj = args[1];
+  if (obj.IsObject()) {
+    Object val = obj.As<Object>();
     *rptr = std::move(Reference<Object>::New(val));
-  } else if (args[2].IsNull()) {
+  } else if (obj.IsNull()) {
     rptr->Reset();
   } else {
     throw TypeError::New(env, "WriteObject's 3rd argument needs to be an object");
