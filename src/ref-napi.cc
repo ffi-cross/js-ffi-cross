@@ -565,6 +565,7 @@ Object Init(Env env, Object exports) {
   SET_ALIGNOF(float, float);
   SET_ALIGNOF(double, double);
   SET_ALIGNOF(bool, bool);
+  SET_ALIGNOF(byte, unsigned char);
   SET_ALIGNOF(char, char);
   SET_ALIGNOF(uchar, unsigned char);
   SET_ALIGNOF(short, short);
