@@ -474,44 +474,47 @@ Value ReinterpretBuffer(const CallbackInfo& args) {
 }
 
 /**
- * Returns a new Buffer instance that has the same memory address
- * as the given buffer, but with a length up to the first aligned set of values of
- * 0 in a row for the given length.
+ * Same as `ref.reinterpretUntilZeros()`, except that this version does not attach _buffer_ to the
+ * returned Buffer, which is potentially unsafe if the garbage collector runs.
  *
  * args[0] - Buffer - the "buf" Buffer instance to read the address from
- * args[1] - Number - the number of sequential 0-byte values that need to be read
- * args[2] - Number - the offset from the "buf" buffer's address to read from
+ * args[1] - Number - the offset from the "buf" buffer's address to read from
+ * return A new Buffer instance with the same memory address as _buffer_, and a variable `length` that
+ *  is terminated by sizeof(T) NUL bytes.
  */
 
+template<typename T>
 Value ReinterpretBufferUntilZeros(const CallbackInfo& args) {
   Env env = args.Env();
-  char* ptr = AddressForArgs(args, 2);
+  char* ptr = AddressForArgs(args);
 
   if (ptr == nullptr) {
     throw Error::New(env, "reinterpretUntilZeros: Cannot reinterpret from nullptr pointer");
   }
-
-  uint32_t numZeros = args[1].ToNumber();
-  uint32_t i = 0;
   size_t size = 0;
-  bool end = false;
-
-  while (!end && size < kMaxLength) {
-    end = true;
-    for (i = 0; i < numZeros; i++) {
-      if (ptr[size + i] != 0) {
-        end = false;
-        break;
-      }
+  while (size < kMaxLength) {
+    if ((*(T*)(ptr + size))== 0) {
+      break;
     }
-    if (!end) {
-      size += numZeros;
-    }
+    size += sizeof(T);
   }
 
   return WrapPointer(env, ptr, size);
 }
 
+Value _reinterpretUntilZeros8(const CallbackInfo& args) {
+  Env env = args.Env();
+  char* ptr = AddressForArgs(args);
+
+  if (ptr == nullptr) {
+    throw Error::New(env, "reinterpretUntilZeros: Cannot reinterpret from nullptr pointer");
+  }
+  return WrapPointer(env, ptr, strlen(ptr));
+}
+
+auto _reinterpretUntilZeros16 = ReinterpretBufferUntilZeros<uint16_t>;
+auto _reinterpretUntilZeros32 = ReinterpretBufferUntilZeros<uint32_t>;
+auto _reinterpretUntilZeros64 = ReinterpretBufferUntilZeros<uint64_t>;
 
 } // anonymous namespace
 
@@ -595,6 +598,9 @@ Object Init(Env env, Object exports) {
   exports["readUInt64"] = Function::New(env, ReadUInt64);
   exports["writeUInt64"] = Function::New(env, WriteUInt64);
   exports["_reinterpret"] = Function::New(env, ReinterpretBuffer);
-  exports["_reinterpretUntilZeros"] = Function::New(env, ReinterpretBufferUntilZeros);
+  exports["_reinterpretUntilZeros8"] = Function::New(env, _reinterpretUntilZeros8);
+  exports["_reinterpretUntilZeros16"] = Function::New(env, _reinterpretUntilZeros16);
+  exports["_reinterpretUntilZeros32"] = Function::New(env, _reinterpretUntilZeros32);
+  exports["_reinterpretUntilZeros64"] = Function::New(env, _reinterpretUntilZeros64);
   return exports;
 }
