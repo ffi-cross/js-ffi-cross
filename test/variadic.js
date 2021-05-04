@@ -13,16 +13,16 @@ describe('variadic arguments', function () {
     const sprintfGen = ffi.VariadicForeignFunction(sprintfPtr, 'int', [ 'pointer', 'string' ]);
 
     sprintfGen()(buf, 'hello world!');
-    assert.strictEqual(buf.readCString(), 'hello world!');
+    assert.strictEqual(ref.readCString(buf), 'hello world!');
 
     sprintfGen('int')(buf, '%d', 42);
-    assert.strictEqual(buf.readCString(), '42');
+    assert.strictEqual(ref.readCString(buf), '42');
 
     sprintfGen('double')(buf, '%10.2f', 3.14);
-    assert.strictEqual(buf.readCString(), '      3.14');
+    assert.strictEqual(ref.readCString(buf), '      3.14');
 
     sprintfGen('string')(buf, ' %s ', 'test');
-    assert.strictEqual(buf.readCString(), ' test ');
+    assert.strictEqual(ref.readCString(buf), ' test ');
   });
 
   it('should return the same Function instance when the same arguments are used', function () {

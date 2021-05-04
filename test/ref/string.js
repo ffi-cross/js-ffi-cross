@@ -6,17 +6,17 @@ describe('C string', function() {
   describe('readCString()', function() {
     it('should return "" for a Buffer containing "\\0"', function() {
       const buf = Buffer.from('\0');
-      assert.strictEqual('', buf.readCString(0));
+      assert.strictEqual('', ref.readCString(buf, 0));
     });
 
     it('should return "hello" for a Buffer containing "hello\\0world"', function() {
       const buf = Buffer.from('hello\0world');
-      assert.strictEqual('hello', buf.readCString(0));
+      assert.strictEqual('hello', ref.readCString(buf, 0));
     });
 
     it('should throw an Error when reading from the NULL pointer', function() {
       assert.throws(() => {
-        ref.NULL.readCString();
+        ref.readCString(NULL);
       });
     });
   });
@@ -50,7 +50,7 @@ describe('C string', function() {
   describe('allocCString()', function() {
     it('should return a new Buffer containing the given string', function() {
       const buf = ref.allocCString('hello world');
-      assert.strictEqual('hello world', buf.readCString());
+      assert.strictEqual('hello world', ref.readCString(buf));
     });
 
     it('should return the NULL pointer for `null` values', function() {

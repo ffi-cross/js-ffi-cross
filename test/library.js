@@ -91,7 +91,7 @@ describe('Library', function () {
         'strcpy': [ charPtr, [ charPtr, 'string' ] ]
     }).strcpy;
     strcpy(buf, ZEROS_128);
-    assert(buf.readCString() === ZEROS_128);
+    assert(ref.readCString(buf) === ZEROS_128);
   })
 
   it('should work with "strcpy" and a 2k length string', function () {
@@ -102,7 +102,7 @@ describe('Library', function () {
       'strcpy': [ charPtr, [ charPtr, 'string' ] ]
     }).strcpy;
     strcpy(buf, ZEROS_2K);
-    assert(buf.readCString() === ZEROS_2K);
+    assert(ref.readCString(buf) === ZEROS_2K);
   })
 
   if (process.platform == 'win32') {
