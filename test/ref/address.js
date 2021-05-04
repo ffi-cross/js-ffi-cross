@@ -43,7 +43,7 @@ describe('address', function() {
 
   describe('inspect()', function() {
     it('should overwrite the default Buffer#inspect() to print the memory address', function() {
-      assert(inspect(buf).includes(buf.hexAddress()));
+      assert(inspect(buf).includes(ref.hexAddress(buf)));
     });
   });
 });
