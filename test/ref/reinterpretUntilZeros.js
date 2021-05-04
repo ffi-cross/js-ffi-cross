@@ -8,14 +8,14 @@ describe('reinterpretUntilZeros()', function() {
 
   it('should return a new Buffer instance up until the first 0', function() {
     const buf = Buffer.from('hello\0world');
-    const buf2 = buf.reinterpretUntilZeros(1);
+    const buf2 = ref.reinterpretUntilZeros(buf, 1);
     assert.strictEqual(buf2.length, 'hello'.length);
     assert.strictEqual(buf2.toString(), 'hello');
   })
 
   it('should return a new Buffer instance up until the first 0 starting from offset', function() {
     const buf = Buffer.from('hello\0world');
-    const buf2 = buf.reinterpretUntilZeros(1, 3);
+    const buf2 = ref.reinterpretUntilZeros(buf, 1, 3);
     assert.strictEqual(buf2.length, 'lo'.length);
     assert.strictEqual(buf2.toString(), 'lo');
   })
@@ -26,7 +26,7 @@ describe('reinterpretUntilZeros()', function() {
     const len = buf.write(str, 'ucs2');
     buf.writeInt16LE(0, len); // NULL terminate the string
 
-    const buf2 = buf.reinterpretUntilZeros(2);
+    const buf2 = ref.reinterpretUntilZeros(buf, 2);
     assert.strictEqual(str.length, buf2.length / 2);
     assert.strictEqual(buf2.toString('ucs2'), str);
   })
