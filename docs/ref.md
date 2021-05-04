@@ -358,14 +358,7 @@ This function "attaches" _buffer_ to the returned Buffer to prevent it from bein
 
 Accepts a `Buffer` instance and a number of `NULL` bytes to read from the pointer. This function will scan past the boundary of the Buffer's `length` until it finds `size` number of aligned `NULL` bytes.
 
-This is useful for finding the end of NUL-termintated array or C string. For example, the `readCString()` function _could_ be implemented like:
-
-```js
-function readCString (buf) {
-    return ref.reinterpretUntilZeros(buf, 1).toString('utf8')
-}
-```
-
+This is useful for finding the end of NUL-termintated array or C string.
 This function "attaches" _buffer_ to the returned Buffer to prevent it from being garbage collected.
 
 ### ref.set(Buffer buffer, Number offset, ? value, Object|String type)
@@ -488,15 +481,6 @@ Attaches _object_ to _buffer_ such that it prevents _object_ from being garbage 
 * **Return:** A new Buffer instance with the same memory address as _buffer_, and the requested _size_.
 
 Same as `ref.reinterpret()`, except that this version does not attach _buffer_ to the returned Buffer, which is potentially unsafe if the garbage collector runs.
-
-### ref._reinterpretUntilZeros(Buffer buffer, Number size, Number offset) → Buffer
-
-* buffer - A Buffer instance to base the returned Buffer off of.
-* size - The number of sequential, aligned `NULL` bytes that are required to terminate the buffer.
-* offset - The offset of the Buffer to begin from.
-* **Return:** A new Buffer instance with the same memory address as _buffer_, and a variable `length` that is terminated by _size_ NUL bytes.
-
-Same as `ref.reinterpretUntilZeros()`, except that this version does not attach _buffer_ to the returned Buffer, which is potentially unsafe if the garbage collector runs.
 
 ### ref._writeObject(Buffer buffer, Number offset, Object object)
 

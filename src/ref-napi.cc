@@ -452,26 +452,6 @@ void WriteUInt64(const CallbackInfo& args) {
 }
 
 /**
- * Reads a Utf8 C String from the given pointer at the given offset (or 0).
- * I didn't want to add this function but it ends up being necessary for reading
- * past a 0 or 1 length Buffer's boundary in node-ffi :\
- *
- * args[0] - Buffer - the "buf" Buffer instance to read from
- * args[1] - Number - the offset from the "buf" buffer's address to read from
- */
-
-Value ReadCString(const CallbackInfo& args) {
-  Env env = args.Env();
-  char* ptr = AddressForArgs(args);
-
-  if (ptr == nullptr) {
-    throw Error::New(env, "readCString: Cannot read from nullptr pointer");
-  }
-
-  return String::New(env, ptr);
-}
-
-/**
  * Returns a new Buffer instance that has the same memory address
  * as the given buffer, but with the specified size.
  *
@@ -614,7 +594,6 @@ Object Init(Env env, Object exports) {
   exports["writeInt64"] = Function::New(env, WriteInt64);
   exports["readUInt64"] = Function::New(env, ReadUInt64);
   exports["writeUInt64"] = Function::New(env, WriteUInt64);
-  exports["readCString"] = Function::New(env, ReadCString);
   exports["_reinterpret"] = Function::New(env, ReinterpretBuffer);
   exports["_reinterpretUntilZeros"] = Function::New(env, ReinterpretBufferUntilZeros);
   return exports;
