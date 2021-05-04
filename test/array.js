@@ -84,11 +84,11 @@ describe('Array', function () {
       a[3] = ptr2
       a[4] = ptr3
 
-      assert.equal(a[0].address(), ref.NULL.address())
-      assert.equal(a[1].address(), ref.NULL_POINTER.address())
-      assert.equal(a[2].address(), ptr1.address())
-      assert.equal(a[3].address(), ptr2.address())
-      assert.equal(a[4].address(), ptr3.address())
+      assert.equal(ref.address(a[0]), ref.address(ref.NULL))
+      assert.equal(ref.address(a[1]), ref.address(ref.NULL_POINTER))
+      assert.equal(ref.address(a[2]), ref.address(ptr1))
+      assert.equal(ref.address(a[3]), ref.address(ptr2))
+      assert.equal(ref.address(a[4]), ref.address(ptr3))
     })
 
     it('should throw an Error when invoked with no arguments', function () {
@@ -144,7 +144,7 @@ describe('Array', function () {
     it('should return a Buffer that points to the base "buffer"', function () {
       var a = new IntArray(1)
       var r = ref.ref(a)
-      assert.equal(ref.readPointer(r, 0).address(), a.buffer.address())
+      assert.equal(ref.address(ref.readPointer(r, 0)), ref.address(a.buffer))
     })
 
     it('should return a Buffer with "indirection" equal to 1', function () {
@@ -158,7 +158,7 @@ describe('Array', function () {
       var r = ref.ref(a)
       var _a = ref.deref(r)
       assert(_a instanceof IntArray)
-      assert.equal(a.buffer.address(), _a.buffer.address())
+      assert.equal(ref.address(a.buffer), ref.address(_a.buffer))
       assert.equal(1, a.length)
       assert.equal(69, a[0])
     })

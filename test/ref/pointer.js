@@ -79,8 +79,8 @@ describe('pointer', function() {
       ref.writePointer(buf, b, 1 * ref.sizeof.pointer);
       const _a = ref.readPointer(buf, 0 * ref.sizeof.pointer);
       const _b = ref.readPointer(buf, 1 * ref.sizeof.pointer);
-      assert.strictEqual(a.address(), _a.address());
-      assert.strictEqual(b.address(), _b.address());
+      assert.strictEqual(ref.address(a), ref.address(_a));
+      assert.strictEqual(ref.address(b), ref.address(_b));
     });
   });
 });

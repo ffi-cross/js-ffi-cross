@@ -55,7 +55,7 @@ char *null_pointer;
 null_pointer = NULL;
 ```
 
-### ref.address(Buffer buffer) → Number
+### ref.address(Buffer buffer) → BigInt
 
 * buffer - The buffer to get the memory address of.
 * **Return:** The memory address the buffer instance.
@@ -64,10 +64,10 @@ Accepts a `Buffer` instance and returns the memory address of the buffer instanc
 
 ```js
 console.log(ref.address(new Buffer(1)));
-4320233616
+4320233616n
 
 console.log(ref.address(ref.NULL)));
-0
+0n
 ```
 
 ### ref.alloc(Object|String type, ? value) → Buffer

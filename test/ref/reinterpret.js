@@ -11,9 +11,9 @@ describe('reinterpret()', function() {
     const buf = Buffer.from('hello world');
     const small = buf.slice(0, 0);
     assert.strictEqual(0, small.length);
-    assert.strictEqual(buf.address(), small.address());
+    assert.strictEqual(ref.address(buf), ref.address(small));
     const reinterpreted = ref.reinterpret(small, buf.length);
-    assert.strictEqual(buf.address(), reinterpreted.address());
+    assert.strictEqual(ref.address(buf), ref.address(reinterpreted));
     assert.strictEqual(buf.length, reinterpreted.length);
     assert.strictEqual(buf.toString(), reinterpreted.toString());
   })
@@ -23,9 +23,9 @@ describe('reinterpret()', function() {
     const offset = 3;
     const small = buf.slice(offset, buf.length);
     assert.strictEqual(buf.length - offset, small.length);
-    assert.strictEqual(buf.address() + offset, small.address());
+    assert.strictEqual(ref.address(buf) + BigInt(offset), ref.address(small));
     const reinterpreted = ref.reinterpret(buf, small.length, offset);
-    assert.strictEqual(small.address(), reinterpreted.address());
+    assert.strictEqual(ref.address(small), ref.address(reinterpreted));
     assert.strictEqual(small.length, reinterpreted.length);
     assert.strictEqual(small.toString(), reinterpreted.toString());
   })

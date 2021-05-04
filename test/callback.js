@@ -37,7 +37,7 @@ describe('Callback', function () {
     let called = false;
     const cb = ffi.Callback(voidPtr, [ voidPtr ], function (ptr) {
       called = true;
-      assert.strictEqual(0, ptr.address());
+      assert.strictEqual(0n, ref.address(ptr));
       return ptr;
     })
 
@@ -46,7 +46,7 @@ describe('Callback', function () {
     const nul = fn(ref.NULL);
     assert(called);
     assert(Buffer.isBuffer(nul));
-    assert.strictEqual(0, nul.address());
+    assert.strictEqual(0n, ref.address(nul));
   });
 
   it('should throw an Error when invoked through a ForeignFunction and throws', function () {

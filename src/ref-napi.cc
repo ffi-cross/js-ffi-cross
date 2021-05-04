@@ -149,12 +149,8 @@ char* AddressForArgs(const CallbackInfo& args, size_t offset_index = 1) {
 }
 
 /**
- * Returns the pointer address as a Number of the given Buffer instance.
- * It's recommended to use `hexAddress()` in most cases instead of this function.
+ * Returns the pointer address as a BigInt of the given Buffer instance.
  *
- * WARNING: a JavaScript Number cannot precisely store a full 64-bit memory
- * address, so there's a possibility of an inaccurate value being returned
- * on 64-bit systems.
  *
  * args[0] - Buffer - the Buffer instance get the memory address of
  * args[1] - Number - optional (0) - the offset of the Buffer start at
@@ -162,9 +158,9 @@ char* AddressForArgs(const CallbackInfo& args, size_t offset_index = 1) {
 
 Value Address (const CallbackInfo& args) {
   char* ptr = AddressForArgs(args);
-  uintptr_t intptr = reinterpret_cast<uintptr_t>(ptr);
+  intptr_t intptr = reinterpret_cast<intptr_t>(ptr);
 
-  return Number::New(args.Env(), static_cast<double>(intptr));
+  return BigInt::New(args.Env(), (int64_t)intptr);
 }
 
 /**

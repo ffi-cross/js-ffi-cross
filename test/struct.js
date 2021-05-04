@@ -75,7 +75,7 @@ describe('Struct', function () {
     assert.equal(10000, ms.uint32Val)
     assert.equal(1.25, ms.floatVal)
     assert.equal(1000.0005, ms.doubleVal)
-    assert.equal(ms.pointerVal.address(), msTestPtr.address())
+    assert.equal(ref.address(ms.pointerVal), ref.address(msTestPtr))
   })
 
   it('should allow Struct nesting', function () {
@@ -123,8 +123,8 @@ describe('Struct', function () {
       var b = Buffer.alloc(1)
       s.ptr1 = ref.NULL
       s.ptr2 = b
-      assert.equal(ref.NULL.address(), s.ptr1.address())
-      assert.equal(b.address(), s.ptr2.address())
+      assert.equal(ref.address(ref.NULL), ref.address(s.ptr1))
+      assert.equal(ref.address(b), ref.address(s.ptr2))
     })
 
   })

@@ -55,7 +55,7 @@ describe('ForeignFunction', function () {
     assert(out instanceof box);
     assert.strictEqual(8, out.width);
     assert.strictEqual(10, out.height);
-    assert.notStrictEqual(ref.ref(b).address(), ref.ref(out).address());
+    assert.notStrictEqual(ref.address(ref.ref(b)), ref.address(ref.ref(out)));
   });
 
   it('should call the static "double_box_ptr" bindings', function () {
@@ -72,7 +72,7 @@ describe('ForeignFunction', function () {
     assert(out instanceof box);
     assert.strictEqual(8, out.width);
     assert.strictEqual(10, out.height);
-    assert.notStrictEqual(ref.ref(b).address(), ref.ref(out).address());
+    assert.notStrictEqual(ref.address(ref.ref(b)), ref.address(ref.ref(out)));
   });
 
   it('should call the static "area_box" bindings', function () {
