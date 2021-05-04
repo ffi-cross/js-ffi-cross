@@ -62,7 +62,7 @@ describe('Union', function () {
       var u = new U({ d: Math.PI })
       var uref = ref.ref(u)
       assert(Buffer.isBuffer(uref))
-      var _u = uref.deref()
+      var _u = ref.deref(uref)
       assert(_u instanceof U)
       assert.equal(Math.PI, _u.d)
     })

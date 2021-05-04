@@ -76,7 +76,7 @@ describe('C string', function() {
     it('should return JS `null` when given a pointer pointing to NULL', function() {
       const buf = ref.alloc(ref.types.CString);
       buf.writePointer(ref.NULL);
-      assert.strictEqual(null, buf.deref());
+      assert.strictEqual(null, ref.deref(buf));
 
       // another version of the same test
       assert.strictEqual(null, ref.get(ref.NULL_POINTER, 0, ref.types.CString));
@@ -86,7 +86,7 @@ describe('C string', function() {
       const str = 'hello world';
       const buf = ref.alloc(ref.types.CString);
       buf.writePointer(Buffer.from(str + '\0'));
-      assert.strictEqual(str, buf.deref());
+      assert.strictEqual(str, ref.deref(buf));
     });
 
     // https://github.com/node-ffi/node-ffi/issues/169

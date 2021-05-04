@@ -195,7 +195,7 @@ describe('Struct', function () {
       var s = new S({ d: Math.PI })
       var sref = ref.ref(s)
       assert(Buffer.isBuffer(sref))
-      var _s = sref.deref()
+      var _s = ref.deref(sref)
       assert(_s instanceof S)
       assert.equal(Math.PI, _s.d)
     })

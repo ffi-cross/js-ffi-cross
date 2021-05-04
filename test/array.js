@@ -156,7 +156,7 @@ describe('Array', function () {
     it('should .deref() back into an instance of the ArrayType type', function () {
       var a = new IntArray([ 69 ])
       var r = ref.ref(a)
-      var _a = r.deref()
+      var _a = ref.deref(r)
       assert(_a instanceof IntArray)
       assert.equal(a.buffer.address(), _a.buffer.address())
       assert.equal(1, a.length)

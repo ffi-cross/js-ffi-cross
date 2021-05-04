@@ -7,9 +7,9 @@ describe('char', function() {
     const val = 'a';
 
     let buf = ref.alloc('char', val);
-    assert.strictEqual(val.charCodeAt(0), buf.deref());
+    assert.strictEqual(val.charCodeAt(0), ref.deref(buf));
 
     buf = ref.alloc('uchar', val);
-    assert.strictEqual(val.charCodeAt(0), buf.deref());
+    assert.strictEqual(val.charCodeAt(0), ref.deref(buf));
   });
 });
