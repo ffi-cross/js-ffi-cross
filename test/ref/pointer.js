@@ -59,7 +59,7 @@ describe('pointer', function() {
 
   it('should throw an Error when reading from the NULL pointer', function() {
     assert.throws(() => {
-      ref.NULL.readPointer();
+      ref.readPointer(NULL);
     });
   });
 
@@ -77,8 +77,8 @@ describe('pointer', function() {
       const b = Buffer.from('world');
       buf.writePointer(a, 0 * ref.sizeof.pointer);
       buf.writePointer(b, 1 * ref.sizeof.pointer);
-      const _a = buf.readPointer(0 * ref.sizeof.pointer);
-      const _b = buf.readPointer(1 * ref.sizeof.pointer);
+      const _a = ref.readPointer(buf, 0 * ref.sizeof.pointer);
+      const _b = ref.readPointer(buf, 1 * ref.sizeof.pointer);
       assert.strictEqual(a.address(), _a.address());
       assert.strictEqual(b.address(), _b.address());
     });

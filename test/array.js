@@ -144,7 +144,7 @@ describe('Array', function () {
     it('should return a Buffer that points to the base "buffer"', function () {
       var a = new IntArray(1)
       var r = ref.ref(a)
-      assert.equal(r.readPointer(0).address(), a.buffer.address())
+      assert.equal(ref.readPointer(r, 0).address(), a.buffer.address())
     })
 
     it('should return a Buffer with "indirection" equal to 1', function () {
