@@ -25,7 +25,7 @@ describe('ffi_cif', function () {
     ffi_type.type = 0;
     ffi_type.elements = ref.NULL;
 
-    const bad_type = { size: 1, indirection: 1, ffi_type: ffi_type.ref() };
+    const bad_type = { size: 1, indirection: 1, ffi_type: ref.ref(ffi_type) };
     assert.throws(function () {
       ffi.CIF(bad_type, []);
     }, function (err) {

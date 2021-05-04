@@ -193,7 +193,7 @@ describe('Struct', function () {
     it('should work to ref() and then deref() 1 level deep', function () {
       var S = StructType({ d: 'double' })
       var s = new S({ d: Math.PI })
-      var sref = s.ref()
+      var sref = ref.ref(s)
       assert(Buffer.isBuffer(sref))
       var _s = sref.deref()
       assert(_s instanceof S)

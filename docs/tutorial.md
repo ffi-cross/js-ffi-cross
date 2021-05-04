@@ -244,7 +244,7 @@ var TimeValPtr = ref.refType(TimeVal);
 
 var lib = new ffi.Library(null, { 'gettimeofday': [ ffi.types.int, [ TimeValPtr, ffi.types. ] ]});
 var tv = new TimeVal();
-lib.gettimeofday(tv.ref(), null);
+lib.gettimeofday(ref.ref(tv), null);
 console.log("Seconds since epoch: " + tv.tv_sec);
 ```
 

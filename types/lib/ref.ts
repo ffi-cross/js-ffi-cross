@@ -1,6 +1,7 @@
 // Definitions by: Keerthi Niranjan <https://github.com/keerthi16>, Kiran Niranjan <https://github.com/KiranNiranjan>
 
 /// <reference types="node" />
+import { ArrayTypeValue } from './ref-array';
 import { Type } from './ref-type'
 
 /** A Buffer that references the C NULL pointer. */
@@ -74,7 +75,7 @@ export declare function readUInt64BE(buffer: Buffer, offset?: number): any;
 export declare function readUInt64LE(buffer: Buffer, offset?: number): any;
 
 /** Create pointer to buffer. */
-export declare function ref(buffer: Buffer): Buffer;
+export declare function ref<T>(buffer: Buffer | ArrayTypeValue<T>): Buffer;
 /** Create clone of the type, with incremented indirection level by 1. */
 export declare function refType<T>(type: Type<T>): Type<T>;
 

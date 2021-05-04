@@ -55,7 +55,7 @@ describe('ForeignFunction', function () {
     assert(out instanceof box);
     assert.strictEqual(8, out.width);
     assert.strictEqual(10, out.height);
-    assert.notStrictEqual(b.ref().address(), out.ref().address());
+    assert.notStrictEqual(ref.ref(b).address(), ref.ref(out).address());
   });
 
   it('should call the static "double_box_ptr" bindings', function () {
@@ -64,7 +64,7 @@ describe('ForeignFunction', function () {
     const b = new box;
     b.width = 4;
     b.height = 5;
-    const out = double_box_ptr(b.ref());
+    const out = double_box_ptr(ref.ref(b));
     // double_box_ptr writes to its input "box" struct, so make sure that the one
     // we passed in has it's values changed (since we passed it in by pointer)
     assert.strictEqual(8, b.width);
@@ -72,7 +72,7 @@ describe('ForeignFunction', function () {
     assert(out instanceof box);
     assert.strictEqual(8, out.width);
     assert.strictEqual(10, out.height);
-    assert.notStrictEqual(b.ref().address(), out.ref().address());
+    assert.notStrictEqual(ref.ref(b).address(), ref.ref(out).address());
   });
 
   it('should call the static "area_box" bindings', function () {
@@ -87,7 +87,7 @@ describe('ForeignFunction', function () {
     const boxPtr = ref.refType(box);
     const area_box = ffi.ForeignFunction(bindings.area_box_ptr, ref.types.int, [ boxPtr ]);
     const b = new box({ width: 5, height: 20 });
-    const rtn = area_box(b.ref());
+    const rtn = area_box(ref.ref(b));
     assert.strictEqual('number', typeof rtn);
     assert.strictEqual(100, rtn);
   });
@@ -167,8 +167,8 @@ describe('ForeignFunction', function () {
 
     const test = ffi.ForeignFunction(bindings.test_ref_56, 'int', [ ref.refType(Obj56) ]);
 
-    assert.strictEqual(1, test(t.ref()));
-    assert.strictEqual(0, test(f.ref()));
+    assert.strictEqual(1, test(ref.ref(t)));
+    assert.strictEqual(0, test(ref.ref(f)));
   });
 
   it('should not call the "ref()" function of its arguments', function () {

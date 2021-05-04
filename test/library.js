@@ -116,7 +116,7 @@ describe('Library', function () {
         'GetSystemTimeAsFileTime': [ 'void', [ 'pointer' ]]
       });
       const ft = new FILETIME();
-      l.GetSystemTimeAsFileTime(ft.ref());
+      l.GetSystemTimeAsFileTime(ref.ref(ft));
       // TODO: Add an assert clause here...
     });
 
@@ -133,7 +133,7 @@ describe('Library', function () {
         gettimeofday: [ref.types.int, [timevalPtr, timezonePtr]]
       });
       const tv = new timeval();
-      l.gettimeofday(tv.ref(), null);
+      l.gettimeofday(ref.ref(tv), null);
       assert.strictEqual(Math.floor(Date.now() / 1000), tv.tv_sec);
     });
   }

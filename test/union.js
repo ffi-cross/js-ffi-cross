@@ -60,7 +60,7 @@ describe('Union', function () {
     it('should work to ref() and then deref() 1 level deep', function () {
       var U = UnionType({ d: 'double' })
       var u = new U({ d: Math.PI })
-      var uref = u.ref()
+      var uref = ref.ref(u)
       assert(Buffer.isBuffer(uref))
       var _u = uref.deref()
       assert(_u instanceof U)

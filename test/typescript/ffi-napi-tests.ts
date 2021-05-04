@@ -120,7 +120,7 @@ const { ref, StructType, types, UnionType, ArrayType } = ffi;
   const array = IntArray.untilZeros(buf);
 }
 {
-  const refCharArr = ArrayType("char")([1, 3, 5], 2).ref();
+  const refCharArr = ref.ref(ArrayType("char")([1, 3, 5], 2));
 }
 {
   // You can also access just functions in the current process by passing a null
