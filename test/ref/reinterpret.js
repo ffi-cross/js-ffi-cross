@@ -12,7 +12,7 @@ describe('reinterpret()', function() {
     const small = buf.slice(0, 0);
     assert.strictEqual(0, small.length);
     assert.strictEqual(buf.address(), small.address());
-    const reinterpreted = small.reinterpret(buf.length);
+    const reinterpreted = ref.reinterpret(small, buf.length);
     assert.strictEqual(buf.address(), reinterpreted.address());
     assert.strictEqual(buf.length, reinterpreted.length);
     assert.strictEqual(buf.toString(), reinterpreted.toString());
@@ -24,7 +24,7 @@ describe('reinterpret()', function() {
     const small = buf.slice(offset, buf.length);
     assert.strictEqual(buf.length - offset, small.length);
     assert.strictEqual(buf.address() + offset, small.address());
-    const reinterpreted = buf.reinterpret(small.length, offset);
+    const reinterpreted = ref.reinterpret(buf, small.length, offset);
     assert.strictEqual(small.address(), reinterpreted.address());
     assert.strictEqual(small.length, reinterpreted.length);
     assert.strictEqual(small.toString(), reinterpreted.toString());
@@ -37,7 +37,7 @@ describe('reinterpret()', function() {
     let otherGCd = false;
     let buf = Buffer.alloc(1);
     weak(buf, () => { origGCd = true; });
-    let other = buf.reinterpret(0);
+    let other = ref.reinterpret(buf, 0);
     weak(other, () => { otherGCd = true; });
 
     assert(!origGCd, '"buf" has been garbage collected too soon');
