@@ -1,7 +1,9 @@
 
-# ref *`v0.3.3`
+# ref tutorial
 
-## Turn Buffer instances into "pointers"
+## Introduction
+
+Turn Buffer instances into "pointers"
 
 ### What is `ref`?
 
@@ -333,7 +335,7 @@ Returns a new clone of the given "type" object, with its `indirection` level inc
 Say you wanted to create a type representing a `void *`:
 
 ```js
-var voidPtrType = ref.refType(ref.types.void);
+var voidPtr = ref.refType(ref.types.void);
 ```
 
 ### ref.reinterpret(Buffer buffer, Number size, Number offset) → Buffer
@@ -512,7 +514,7 @@ Same as `ref.writeObject()`, except that this version does not _attach_ the Obje
 
 Same as `ref.writePointer()`, except that this version does not attach _pointer_ to _buffer_, which is potentially unsafe if the garbage collector runs.
 
-## ref _"type"_ system
+## The _"type"_ system
 
 A "type" in `ref` is simply an plain 'ol JavaScript Object, with a set of expected properties attached that implement the logic for getting & setting values on a given `Buffer` instance.
 
@@ -586,7 +588,7 @@ The `Object` type. This can be used to read/write regular JS Objects into raw me
 
 ### types.CString
 
-The `CString` (a.k.a `"string"`) type.
+The `CString` type.
 
 CStrings are a kind of weird thing. We say it's `sizeof(char *)`, and `indirection` level of 1, which means that we have to return a Buffer that is pointer sized, and points to a some utf8 string data, so we have to create a 2nd "in-between" buffer.
 
