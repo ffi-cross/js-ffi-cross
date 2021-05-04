@@ -40,7 +40,7 @@ enum ArrayBufferMode {
 
 // Since Node.js v14.0.0, we have to keep a global list of all ArrayBuffer
 // instances that we work with, in order not to create any duplicates.
-// Luckily, N-API instance data is available on v14.x and above.
+// Luckily, N-API instance data is available on v12.x and above.
 namespace FFI {
 
   inline void UnregisterArrayBuffer(InstanceData *data, char* ptr) {
