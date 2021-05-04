@@ -1,7 +1,7 @@
 var ffi = require('../../')
 
 var libfactorial = ffi.Library('./libfactorial', {
-  'factorial': [ 'uint64', [ 'int' ] ]
+  'factorial': [ ffi.types.uint64, [ ffi.types.int ] ]
 })
 
 if (process.argv.length < 3) {
