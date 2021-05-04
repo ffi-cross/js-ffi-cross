@@ -60,7 +60,7 @@ describe('Object', function() {
 
   it('should throw an Error when reading an Object from the NULL pointer', function() {
     assert.throws(() => {
-      ref.NULL.readObject();
+      ref.readObject(NULL);
     });
   });
 
@@ -71,8 +71,8 @@ describe('Object', function() {
       const b = {};
       ref.writeObject(buf, a, 0 * ref.sizeof.Object);
       ref.writeObject(buf, b, 1 * ref.sizeof.Object);
-      const _a = buf.readObject(0 * ref.sizeof.Object);
-      const _b = buf.readObject(1 * ref.sizeof.Object);
+      const _a = ref.readObject(buf, 0 * ref.sizeof.Object);
+      const _b = ref.readObject(buf, 1 * ref.sizeof.Object);
       assert.strictEqual(a, _a);
       assert.strictEqual(b, _b);
     });
