@@ -208,4 +208,7 @@ export const types: {
 
     Object: Type<object>;
     CString: Type<string>;
+
+    charPtr: Type<Buffer>;
+    voidPtr: Type<Buffer>;
 };
