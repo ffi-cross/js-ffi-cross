@@ -20,11 +20,11 @@ for an example of this use case.
 easily create situations where you will segfault the interpreter and unless
 you've got C debugger skills, you probably won't know what's going on.
 
-**WARNING**: The original API of `node-ffi` is are mostly changed in the
-ffs-cross. However, the API did not have very well-defined properties
-in the context of garbage collection and multi-threaded execution. It is
-recommended to avoid any multi-threading usage of this library
-if possible.
+**WARNING**: As a fork of `node-ffi` and `node-ffi-napi`, the original API of `node-ffi` is
+are rewrited in the `js-ffs-cross`. So please reference the [TypeScript DefinitelyTyped file][typed]
+The API did not have very well-defined properties in the context of garbage collection
+and multi-threaded execution. It is recommended to avoid any multi-threading usage of
+this library if possible. 
 
 ## Example
 
@@ -119,5 +119,6 @@ FFI calls, so make them worth it.
 
 MIT License. See the `LICENSE` file.
 
+[typed]: https://github.com/ffi-cross/js-ffi-cross/blob/master/types/index.d.ts
 [tutorial]: https://github.com/ffi-cross/js-ffi-cross/blob/master/docs/tutorial.md
 [ref-types]: https://github.com/ffi-cross/js-ffi-cross/blob/master/docs/ref.md#the-built-in-types
