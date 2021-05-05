@@ -7,7 +7,7 @@ Turn Buffer instances into "pointers"
 
 ### What is `ref`?
 
-`ref` is a native addon for [Node.js with some fancy additions like:
+`ref` is a native addon for Node.js with some fancy additions like:
 
 * Getting the memory address of a Buffer
 * Checking the endianness of the processor

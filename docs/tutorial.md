@@ -248,5 +248,5 @@ lib.gettimeofday(ref.ref(tv), null);
 console.log("Seconds since epoch: " + tv.tv_sec);
 ```
 
-[ref]: https://github.com/TooTallNate/ref
-[ref-struct]: https://github.com/TooTallNate/ref-struct
+[ref]: https://github.com/ffi-cross/js-ffi-cross/blob/master/docs/ref.md
+[ref-struct]: https://github.com/ffi-cross/js-ffi-cross/blob/master/types/lib/ref-struct.ts

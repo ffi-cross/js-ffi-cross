@@ -20,8 +20,8 @@ for an example of this use case.
 easily create situations where you will segfault the interpreter and unless
 you've got C debugger skills, you probably won't know what's going on.
 
-**WARNING**: The original API of `node-ffi` is left mostly untouched in the
-N-API wrapper. However, the API did not have very well-defined properties
+**WARNING**: The original API of `node-ffi` is are mostly changed in the
+ffs-cross. However, the API did not have very well-defined properties
 in the context of garbage collection and multi-threaded execution. It is
 recommended to avoid any multi-threading usage of this library
 if possible.
