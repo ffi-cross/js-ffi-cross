@@ -164,30 +164,6 @@ Value Address (const CallbackInfo& args) {
 }
 
 /**
- * Returns the pointer address as a hexadecimal String. This function
- * is safe to use for displaying memory addresses, as compared to the
- * `address()` function which could overflow since it returns a Number.
- *
- * args[0] - Buffer - the Buffer instance get the memory address of
- * args[1] - Number - optional (0) - the offset of the Buffer start at
- */
-
-Value HexAddress(const CallbackInfo& args) {
-  char* ptr = AddressForArgs(args);
-  char strbuf[30]; /* should be plenty... */
-  snprintf(strbuf, 30, "%p", ptr);
-
-  if (strbuf[0] == '0' && strbuf[1] == 'x') {
-    /* strip the leading "0x" from the address */
-    ptr = strbuf + 2;
-  } else {
-    ptr = strbuf;
-  }
-
-  return String::New(args.Env(), ptr);
-}
-
-/**
  * Retreives a JS Object instance that was previously stored in
  * the given Buffer instance at the given offset.
  *
@@ -435,7 +411,6 @@ Object Init(Env env, Object exports) {
   exports["alignof"] = amap;
   exports["nullptr"] = exports["NULL"] = WrapPointer(env, nullptr, 0);
   exports["address"] = Function::New(env, Address);
-  exports["hexAddress"] = Function::New(env, HexAddress);
   exports["readObject"] = Function::New(env, ReadObject);
   exports["_writeObject"] = Function::New(env, WriteObject);
   exports["readPointer"] = Function::New(env, ReadPointer);
