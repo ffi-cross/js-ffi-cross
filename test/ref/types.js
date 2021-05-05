@@ -59,7 +59,7 @@ describe('types', function() {
 
   describe('size', function() {
     Object.keys(ref.types).forEach((name) => {
-      if (name === 'void') return;
+      if (name === 'void' || name === 'voidPtr') return;
       it('sizeof(' + name + ') should be >= 1', function() {
         const type = ref.types[name];
         assert.strictEqual('number', typeof type.size);
@@ -70,7 +70,7 @@ describe('types', function() {
 
   describe('alignment', function() {
     Object.keys(ref.types).forEach(function (name) {
-      if (name === 'void') return;
+      if (name === 'void' || name === 'voidPtr') return;
       it('alignof(' + name + ') should be >= 1', function() {
         const type = ref.types[name];
         assert.strictEqual('number', typeof type.alignment);
