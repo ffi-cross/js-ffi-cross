@@ -188,18 +188,6 @@ Value HexAddress(const CallbackInfo& args) {
 }
 
 /**
- * Returns "true" if the given Buffer points to nullptr, "false" otherwise.
- *
- * args[0] - Buffer - the Buffer instance to check for nullptr
- * args[1] - Number - optional (0) - the offset of the Buffer start at
- */
-
-Value IsNull(const CallbackInfo& args) {
-  char* ptr = AddressForArgs(args);
-  return Boolean::New(args.Env(), ptr == nullptr);
-}
-
-/**
  * Retreives a JS Object instance that was previously stored in
  * the given Buffer instance at the given offset.
  *
@@ -448,7 +436,6 @@ Object Init(Env env, Object exports) {
   exports["nullptr"] = exports["NULL"] = WrapPointer(env, nullptr, 0);
   exports["address"] = Function::New(env, Address);
   exports["hexAddress"] = Function::New(env, HexAddress);
-  exports["isNull"] = Function::New(env, IsNull);
   exports["readObject"] = Function::New(env, ReadObject);
   exports["_writeObject"] = Function::New(env, WriteObject);
   exports["readPointer"] = Function::New(env, ReadPointer);
