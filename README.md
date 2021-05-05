@@ -21,7 +21,7 @@ easily create situations where you will segfault the interpreter and unless
 you've got C debugger skills, you probably won't know what's going on.
 
 **WARNING**: As a fork of `node-ffi` and `node-ffi-napi`, the original API of `node-ffi` is
-are rewrited in the `js-ffs-cross`. So please reference the [TypeScript DefinitelyTyped file][typed]
+are rewrited in the `js-ffs-cross`. So please reference the [TypeScript DefinitelyTyped file][typed].
 The API did not have very well-defined properties in the context of garbage collection
 and multi-threaded execution. It is recommended to avoid any multi-threading usage of
 this library if possible. 
