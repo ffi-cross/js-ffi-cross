@@ -113,9 +113,9 @@ const { ref, StructType, types, UnionType, ArrayType, buffer } = ffi;
   const IntArray = ArrayType(int);
 
   const buf = Buffer.alloc(int.size * 3);
-  int.set(buf, int.size * 0, 5);
-  int.set(buf, int.size * 1, 8);
-  int.set(buf, int.size * 2, 0);
+  int.set(buf, 5, int.size * 0);
+  int.set(buf, 8, int.size * 1);
+  int.set(buf, 0, int.size * 2);
 
   const array = IntArray.untilZeros(buf);
 }

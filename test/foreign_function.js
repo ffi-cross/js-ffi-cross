@@ -103,9 +103,9 @@ describe('ForeignFunction', function () {
   it('should call the static "add_boxes" bindings', function () {
     const count = 3;
     const boxes = Buffer.alloc(box.size * count);
-    box.set(boxes, box.size * 0, { width: 1, height: 10 });
-    box.set(boxes, box.size * 1, { width: 2, height: 20 });
-    box.set(boxes, box.size * 2, { width: 3, height: 30 });
+    box.set(boxes, { width: 1, height: 10 }, box.size * 0);
+    box.set(boxes, { width: 2, height: 20 }, box.size * 1);
+    box.set(boxes, { width: 3, height: 30 }, box.size * 2);
     const boxPtr = ref.refType(box);
     const add_boxes = ffi.ForeignFunction(bindings.add_boxes, box, [ boxPtr, 'int' ]);
     const rtn = add_boxes(boxes, count);

@@ -126,9 +126,9 @@ describe('Array', function () {
 
       // manually create a NULL-terminated int[]
       var buf = Buffer.alloc(int.size * 3)
-      int.set(buf, int.size * 0, 5)
-      int.set(buf, int.size * 1, 8)
-      int.set(buf, int.size * 2, 0) // <- terminate with 0s
+      int.set(buf, 5, int.size * 0)
+      int.set(buf, 8, int.size * 1)
+      int.set(buf, 0, int.size * 2) // <- terminate with 0s
 
       var array = IntArray.untilZeros(buf)
       assert.equal(2, array.length)

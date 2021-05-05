@@ -139,19 +139,19 @@ describe('Struct', function () {
 
       var b = Buffer.alloc(Foo.size * 2);
 
-      Foo.set(b, Foo.size * 0, {
+      Foo.set(b, {
         test1: 7123,
         test2: -555
-      });
+      }, Foo.size * 0);
 
       var f = new Foo(b);
       assert.equal(f.test1, 7123);
       assert.equal(f.test2, -555);
 
-      Foo.set(b, Foo.size * 1, {
+      Foo.set(b, {
         test1: 1234,
         test2: -1234
-      });
+      }, Foo.size * 1);
 
       f = new Foo(b.slice(Foo.size * 1));
       assert.equal(f.test1, 1234);
@@ -167,19 +167,19 @@ describe('Struct', function () {
 
       var b = Buffer.alloc(Foo.size * 2);
 
-      Foo.set(b, Foo.size * 0, new Foo({
+      Foo.set(b, new Foo({
         test1: 7123,
         test2: -555
-      }));
+      }), Foo.size * 0);
 
       var f = new Foo(b);
       assert.equal(f.test1, 7123);
       assert.equal(f.test2, -555);
 
-      Foo.set(b, Foo.size * 1, new Foo({
+      Foo.set(b, new Foo({
         test1: 1234,
         test2: -1234
-      }));
+      }), Foo.size * 1);
 
       f = new Foo(b.slice(Foo.size * 1));
       assert.equal(f.test1, 1234);
