@@ -1,8 +1,7 @@
 'use strict';
 const assert = require('assert');
 const ffi = require('../');
-const { ref } = ffi
-const int = ref.types.int;
+const { ref, types } = ffi
 const bindings = require('node-gyp-build')(__dirname);
 
 describe('Callback', function () {
@@ -14,8 +13,8 @@ describe('Callback', function () {
   });
 
   it('should be invokable by an ffi\'d ForeignFunction', function () {
-    const funcPtr = ffi.Callback(int, [ int ], Math.abs);
-    const func = ffi.ForeignFunction(funcPtr, int, [ int ]);
+    const funcPtr = ffi.Callback(types.int, [ types.int ], Math.abs);
+    const func = ffi.ForeignFunction(funcPtr, types.int, [ types.int ]);
     assert.strictEqual(1234, func(-1234));
   });
 
@@ -60,12 +59,12 @@ describe('Callback', function () {
   });
 
   it('should throw an Error with a meaningful message when a type\'s "set()" throws', function () {
-    const cb = ffi.Callback('int', [ ], function () {
+    const cb = ffi.Callback(types.int, [ ], function () {
       // Changed, because returning string is not failing because of this
       // https://github.com/iojs/io.js/issues/1161
       return 1111111111111111111111;
     });
-    const fn = ffi.ForeignFunction(cb, 'int', [ ]);
+    const fn = ffi.ForeignFunction(cb, types.int, [ ]);
     assert.throws(function () {
       fn();
     }, /error setting return value/);
@@ -159,8 +158,8 @@ describe('Callback', function () {
 
   describe('async', function () {
     it('should be invokable asynchronously by an ffi\'d ForeignFunction', function (done) {
-      const funcPtr = ffi.Callback(int, [ int ], Math.abs);
-      const func = ffi.ForeignFunction(funcPtr, int, [ int ]);
+      const funcPtr = ffi.Callback(types.int, [ types.int ], Math.abs);
+      const func = ffi.ForeignFunction(funcPtr, types.int, [ types.int ]);
       func.async(-9999, function (err, res) {
         assert.strictEqual(null, err);
         assert.strictEqual(9999, res);
