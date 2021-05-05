@@ -9,8 +9,8 @@ describe('ForeignFunction', function () {
 
   // these structs are also defined in ffi_tests.cc
   const box = StructType({
-    width: ref.types.int,
-    height: ref.types.int
+    width: ffi.types.int,
+    height: ffi.types.int
   });
 
   const arst = StructType({
@@ -209,5 +209,28 @@ describe('ForeignFunction', function () {
         }
       });
     });
+
+    it('async with error', function(done) {
+      const funcPtr = Buffer.alloc(10);
+      const func = ffi.ForeignFunction(funcPtr, ffi.types.int, [ffi.types.int]);
+      assert(typeof func === "function");
+      // Calling to this function will result crash.
+      // As it's not the real code, it's just 0 filled byte array
+      assert.throws(function () {
+        func(-5);
+      })        
+      func.async(-5, (err, res) => {
+        assert(err === "The content of funcPtr pointed are invalid(empty)!")
+        done()
+      });
+    })
   });
+
+  it('check uv version', function() {
+    const uv_func = ffi.Library(null, {
+      uv_version_string: [ffi.types.CString, []],
+    });
+    const uv_version = uv_func.uv_version_string();
+    assert(typeof uv_version === 'string')
+  })
 });
