@@ -51,7 +51,6 @@
     "install": "node-gyp-build",
     "prebuild": "prebuildify --napi --tag-armv --tag-uv",
     "prebuild:debug": "prebuildify --napi --tag-armv --tag-uv --debug",
-    "prepack": "prebuildify-ci download && ([ $(ls prebuilds | wc -l) = '5' ] || (echo 'Some prebuilds are missing'; exit 1))",
     "test:cov": "nyc --reporter=lcov mocha --expose-gc --reporter spec test/**/*.js",
     "test": "mocha --expose-gc --reporter spec test/**/*.js",
     "test:full": "npm run test:build && npm run test:cov && npm run ts-test",
