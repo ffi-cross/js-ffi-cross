@@ -94,7 +94,7 @@ describe('C string', function() {
       const str = 'hey!';
       const store = Buffer.from(str + '\0');
       const buf = ref.alloc(ref.types.CString);
-      ref.set(buf, 0, store);
+      ref.set(buf, store, 0);
 
       assert.strictEqual(str, ref.get(buf, 0));
     });

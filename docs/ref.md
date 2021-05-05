@@ -285,11 +285,11 @@ Accepts a `Buffer` instance and a number of `NULL` bytes to read from the pointe
 This is useful for finding the end of NUL-termintated array or C string.
 This function "attaches" _buffer_ to the returned Buffer to prevent it from being garbage collected.
 
-### ref.set(Buffer buffer, Number offset, ? value, Object|String type)
+### ref.set(Buffer buffer, ? value, Number offset, Object|String type)
 
 * buffer - The Buffer instance to write to.
-* offset - The offset on the Buffer to start writing to.
 * value - The value to write to the Buffer instance.
+* offset - The offset on the Buffer to start writing to.
 * type - (optional) The "type" object to use when reading. Defaults to calling `getType()` on the buffer.
 
 Calls the `set()` function of the Buffer's current "type" (or the passed in _type_ if present) at the given _offset_.

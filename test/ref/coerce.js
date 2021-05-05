@@ -34,7 +34,7 @@ describe('coerce', function() {
 
   it('should coerce the optional type in `ref.set()`', function() {
     const b = Buffer.alloc(ref.sizeof.int8);
-    ref.set(b, 0, 5, 'int8');
+    ref.set(b, 5, 0, 'int8');
     assert.strictEqual(5, b[0]);
   });
 

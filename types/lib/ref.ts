@@ -44,8 +44,7 @@ export declare function readCString(buffer: Buffer, offset?: number): string;
 /** Read a JS Object that has previously been written. */
 export declare function readObject(buffer: Buffer, offset?: number): Object;
 /** Read data from the pointer. */
-export declare function readPointer(buffer: Buffer, offset?: number,
-    length?: number): Buffer;
+export declare function readPointer(buffer: Buffer, offset?: number, length?: number): Buffer;
 
 /** Create pointer to buffer. */
 export declare function ref<T>(buffer: Buffer | ArrayTypeValue<T>): Buffer;
@@ -67,7 +66,7 @@ export declare function reinterpretUntilZeros(buffer: Buffer, size: number,
     offset?: number): Buffer;
 
 /** Write pointer if the indirection is 1, otherwise write value. */
-export declare function set<T>(buffer: Buffer, offset: number, value: any, type?: Type<T>): void;
+export declare function set<T>(buffer: Buffer, value: T, offset: number, type?: Type<T>): void;
 /** Write the string as a NULL terminated. Default encoding is utf8. */
 export declare function writeCString(buffer: Buffer, string: string, offset: number, encoding?: string): void;
 
@@ -90,11 +89,9 @@ export declare function writePointer(buffer: Buffer, pointer: Buffer, offset?: n
 export declare function _attach(buffer: Buffer, object: Object): void;
 
 /** Same as ref.reinterpret, except that this version does not attach buffer. */
-export declare function _reinterpret(buffer: Buffer, size: number,
-    offset?: number): Buffer;
+export declare function _reinterpret(buffer: Buffer, size: number, offset?: number): Buffer;
 /** Same as ref.reinterpretUntilZeros, except that this version does not attach buffer. */
-export declare function _reinterpretUntilZeros(buffer: Buffer, size: number,
-    offset?: number): Buffer;
+export declare function _reinterpretUntilZeros(buffer: Buffer, size: number, offset?: number): Buffer;
 /** Same as ref.writePointer, except that this version does not attach pointer. */
 export declare function _writePointer(buffer: Buffer, pointer: Buffer, offset: number): void;
 /** Same as ref.writeObject, except that this version does not attach object. */
