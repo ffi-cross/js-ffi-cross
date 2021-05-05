@@ -134,7 +134,7 @@ describe('Library', function () {
       });
       const tv = new timeval();
       l.gettimeofday(ref.ref(tv), null);
-      assert.strictEqual(Math.floor(Date.now() / 1000), tv.tv_sec);
+      assert.strictEqual(BigInt(Math.floor(Date.now() / 1000)), tv.tv_sec);
     });
   }
 

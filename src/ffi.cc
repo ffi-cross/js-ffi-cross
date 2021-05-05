@@ -166,11 +166,7 @@ void FFI::InitializeBindings(Env env, Object target) {
   ftmap["float"] = WrapPointer(env, &ffi_type_float);
   ftmap["double"] = WrapPointer(env, &ffi_type_double);
   ftmap["pointer"] = WrapPointer(env, &ffi_type_pointer);
-  // NOTE: "long" and "ulong" get handled in JS-land
-  // Let libffi handle "long long"
-  ftmap["ulonglong"] = WrapPointer(env, &ffi_type_ulong);
-  ftmap["longlong"] = WrapPointer(env, &ffi_type_slong);
-
+  // NOTE: "bool", "byte", "long", "ulong", "longlong", "ulonglong" and "size_t" get handled in JS-land
   target["FFI_TYPES"] = ftmap;
 }
 
