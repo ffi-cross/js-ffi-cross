@@ -54,6 +54,6 @@ describe('ref(), deref()', function() {
 
   it('should not throw when calling ref()/deref() on a `void` type', function() {
     const test = ref.alloc(ref.types.void);
-    assert.strictEqual(null, ref.deref(test));
+    assert.strictEqual(undefined, ref.deref(test));
   });
 });

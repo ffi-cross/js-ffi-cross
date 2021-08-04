@@ -21,7 +21,7 @@ describe('Callback', function () {
   it('should work with a "void" return type', function () {
     const funcPtr = ffi.Callback('void', [ ], function (val) { });
     const func = ffi.ForeignFunction(funcPtr, 'void', [ ]);
-    assert.strictEqual(null, func());
+    assert.strictEqual(undefined, func());
   });
 
   it('should not call "set()" of a pointer type', function () {
