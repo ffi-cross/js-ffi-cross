@@ -5,13 +5,13 @@
 
 export * as ref from './lib/ref'
 import { Type } from './lib/ref-type'
-export { Type } from './lib/ref-type'
+export { Type, TypedBuffer } from './lib/ref-type'
 export * as buffer from './lib/ref-buffer'
 
 import { StructType } from './lib/ref-struct';
 export { StructType } from './lib/ref-struct';
 export { UnionType } from './lib/ref-union';
-export { ArrayType } from './lib/ref-array';
+export { ArrayType, ArrayTypeValue } from './lib/ref-array';
 
 /** Provides a friendly API on-top of `DynamicLibrary` and `ForeignFunction`. */
 export interface Library {
@@ -188,12 +188,15 @@ export const types: {
     int64: Type<bigint>;
     uint64: Type<bigint>;
 
-    bool: Type<boolean | number>;
+    bool: Type<boolean>;
     byte: Type<number>;
+    ssize_t: Type<bigint>;
     size_t: Type<bigint>;
+    intptr_t: Type<bigint>;
+    uintptr_t: Type<bigint>;
 
-    char: Type<number>;
-    uchar: Type<number>;
+    char: Type<string>;
+    uchar: Type<string>;
     short: Type<number>;
     ushort: Type<number>;
     int: Type<number>;
@@ -209,6 +212,6 @@ export const types: {
     Object: Type<object>;
     CString: Type<string>;
 
-    charPtr: Type<Buffer>;
-    voidPtr: Type<Buffer>;
+    charPtr: Type<Type<string>>;
+    voidPtr: Type<Type<undefined>>;
 };

@@ -1,4 +1,3 @@
-// Definitions by: Keerthi Niranjan <https://github.com/keerthi16>, Kiran Niranjan <https://github.com/KiranNiranjan>
 
 import { Type } from './ref-type'
 

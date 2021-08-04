@@ -1,15 +1,19 @@
-// Definitions by: Keerthi Niranjan <https://github.com/keerthi16>, Kiran Niranjan <https://github.com/KiranNiranjan>
 
-import { Type } from './ref-type'
+import { Type, TypedBuffer } from './ref-type'
 
 export interface ArrayTypeValue<T> {
-  [i: number]: T;
+  [i: number]: ArrayTypeValue<T>['element'];
   length: number;
-  toArray(): T[];
-  toJSON(): T[];
+  toArray(): ArrayTypeValue<T>['element'][];
+  toJSON(): ArrayTypeValue<T>['element'][];
   inspect(): string;
   buffer: Buffer;
-  ref(): Buffer;
+
+  /* The following member are not exist at all, as they are used to inference type */
+  type: TypedBuffer<Type<Type<T>>>['type']
+  element: TypedBuffer<Type<T>>['value'] /* The type of array element, such as 'char' */
+  value: TypedBuffer<Type<Type<T>>>['value']   /* array type, such as 'char*' */
+  refer: TypedBuffer<Type<Type<T>>>['refer'] /* refer to array type, such as 'char**' */
 }
 
 export interface ArrayType<T> extends Type<T> {
@@ -26,10 +30,10 @@ export interface ArrayType<T> extends Type<T> {
     untilZeros(buffer: Buffer): ArrayTypeValue<T>;
 
     new (length?: number): ArrayTypeValue<T>;
-    new (data: number[], length?: number): ArrayTypeValue<T>;
+    new (data: ArrayTypeValue<T>['element'][], length?: number): ArrayTypeValue<T>;
     new (data: Buffer, length?: number): ArrayTypeValue<T>;
     (length?: number): ArrayTypeValue<T>;
-    (data: number[], length?: number): ArrayTypeValue<T>;
+    (data: ArrayTypeValue<T>['element'][], length?: number): ArrayTypeValue<T>;
     (data: Buffer, length?: number): ArrayTypeValue<T>;
 }
 
@@ -40,7 +44,5 @@ export interface ArrayType<T> extends Type<T> {
  */
 export declare const ArrayType: {
     new <T>(type: Type<T>, length?: number): ArrayType<T>;
-    new <T>(type: string, length?: number): ArrayType<T>;
     <T>(type: Type<T>, length?: number): ArrayType<T>;
-    <T>(type: string, length?: number): ArrayType<T>;
 };

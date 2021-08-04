@@ -1,17 +1,15 @@
-// Definitions by: Keerthi Niranjan <https://github.com/keerthi16>, Kiran Niranjan <https://github.com/KiranNiranjan>
 
-/// <reference types="node" />
 import { ArrayTypeValue } from './ref-array';
-import { Type } from './ref-type'
+import { Type, TypedBuffer } from './ref-type'
 
 /** A Buffer that references the C NULL pointer. */
-export declare var NULL: Buffer;
+export declare var NULL: TypedBuffer<Type<undefined>>;
 /** A pointer-sized buffer pointing to NULL. */
-export declare var NULL_POINTER: Buffer;
+export declare var NULL_POINTER: TypedBuffer<Type<Type<undefined>>>;
 /** Get the memory address of buffer. */
-export declare function address(buffer: Buffer): number;
+export declare function address(buffer: Buffer): bigint;
 /** Allocate the memory with the given value written to it. */
-export declare function alloc<T>(type: Type<T>, value?: any): Buffer;
+export declare function alloc<T>(type: Type<T>, value?: TypedBuffer<T>['value']): TypedBuffer<T>['refer'];
 
 /**
  * Allocate the memory with the given string written to it with the given
@@ -26,16 +24,17 @@ export declare function allocCString(string: string, encoding?: string): Buffer;
  * if it's greater than 1 then it merely returns another Buffer, but with
  * one level less indirection.
  */
-export declare function deref<T>(buffer: Buffer): T;
+export declare function deref<T>(buffer: TypedBuffer<T>): TypedBuffer<T>['value'];
 
 /** Create clone of the type, with decremented indirection level by 1. */
-export declare function derefType<T>(type: Type<T>): Type<T>;
+export declare function derefType<T>(type: Type<T>): T;
 /** Represents the native endianness of the processor ("LE" or "BE"). */
 export declare var endianness: string;
 /** Check the indirection level and return a dereferenced when necessary. */
-export declare function get<T>(buffer: Buffer, offset?: number, type?: Type<T>): any;
+export declare function get<T>(buffer: ArrayTypeValue<T>, offset?: number, type?: ArrayTypeValue<T>['type']): T;
+export declare function get<T>(buffer: TypedBuffer<T>, offset?: number, type?: Type<T>): TypedBuffer<T>['value'];
 /** Get type of the buffer. Create a default type when none exists. */
-export declare function getType<T>(buffer: Buffer): Type<T>;
+export declare function getType<T>(buffer: TypedBuffer<T>): Type<T>;
 /** Check the NULL. */
 export declare function isNull(buffer: Buffer): boolean;
 /** Read C string until the first NULL. */
@@ -47,9 +46,10 @@ export declare function readObject(buffer: Buffer, offset?: number): Object;
 export declare function readPointer(buffer: Buffer, offset?: number, length?: number): Buffer;
 
 /** Create pointer to buffer. */
-export declare function ref<T>(buffer: Buffer | ArrayTypeValue<T>): Buffer;
+export declare function ref<T>(buffer: ArrayTypeValue<T>):ArrayTypeValue<T>['refer']
+export declare function ref<T>(buffer: TypedBuffer<T>): TypedBuffer<T>['refer'];
 /** Create clone of the type, with incremented indirection level by 1. */
-export declare function refType<T>(type: Type<T>): Type<T>;
+export declare function refType<T>(type: Type<T>): Type<Type<T>>;
 
 /**
  * Create buffer with the specified size, with the same address as source.
@@ -66,7 +66,8 @@ export declare function reinterpretUntilZeros(buffer: Buffer, size: number,
     offset?: number): Buffer;
 
 /** Write pointer if the indirection is 1, otherwise write value. */
-export declare function set<T>(buffer: Buffer, value: T, offset: number, type?: Type<T>): void;
+export declare function set<T>(buffer: TypedBuffer<T>, value: TypedBuffer<T>["value"], offset: number, type?: Type<T>): void;
+
 /** Write the string as a NULL terminated. Default encoding is utf8. */
 export declare function writeCString(buffer: Buffer, string: string, offset: number, encoding?: string): void;
 
