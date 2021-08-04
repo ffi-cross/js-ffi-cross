@@ -170,6 +170,8 @@ import  { ref, StructType, types, UnionType, ArrayType, buffer } from "../../";
   const int_ref_allocated = ref.alloc(int_ref)  /* int** */
   ref.set(int_ref_allocated, int_ref.NULL , 0)
   ref.set(int_ref_allocated, int_val_allocated, 0)
+  const int_ref_ref_dref = ref.deref(int_ref_allocated)
+  assert.equal(ref.address(int_ref_ref_dref), ref.address(int_val_allocated))
 
   type sqlite3PtrValType = typeof sqlite3Ptr.value
   type sqlite3PtrRefType = typeof sqlite3Ptr.refer
