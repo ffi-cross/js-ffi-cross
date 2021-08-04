@@ -18,7 +18,7 @@ describe('Array', function () {
       var a = new CharArray(b)
       assert.equal(b.length, a.length)
       for (var i = 0; i < b.length; i++) {
-        assert.equal(a[i], b[i])
+        assert.equal(a[i], String.fromCharCode(b[i]))
       }
     })
 

@@ -44,12 +44,23 @@ describe('ref(), deref()', function() {
   })
 
   it('should deref() a "char" type properly', function() {
-    const test = Buffer.alloc(ref.sizeof.char);
-    test.type = ref.types.char;
-    test[0] = 50;
-    assert.strictEqual(50, ref.deref(test));
-    test[0] = 127;
-    assert.strictEqual(127, ref.deref(test));
+    const types = [ref.types.char, ref.types.uchar]
+    for (let t of types) {
+      const test = Buffer.alloc(t.size);
+      test.type = t;
+      test[0] = 50;
+      assert.strictEqual('2', ref.deref(test));
+      test[0] = 127;
+      assert.strictEqual('\x7F', ref.deref(test));
+      test[0] = 128;
+      assert.strictEqual('\x80', ref.deref(test));
+      test[0] = 129;
+      assert.strictEqual('\x81', ref.deref(test));
+      test[0] = 161;
+      assert.strictEqual('¡', ref.deref(test));
+      test[0] = 255;
+      assert.strictEqual('ÿ', ref.deref(test));
+    }
   });
 
   it('should not throw when calling ref()/deref() on a `void` type', function() {
