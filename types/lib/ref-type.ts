@@ -6,7 +6,7 @@ export interface TypedBuffer<T> extends Buffer {
       : Item
     : T;
   refer: TypedBuffer<Type<T>>;
-  self: TypedBuffer<T>
+  self: T extends Type<infer Item> ? TypedBuffer<Type<Item>> : T
 }
 
 export interface Type<T> {
