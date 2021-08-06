@@ -145,38 +145,72 @@ import  { ref, StructType, types, UnionType, ArrayType, buffer } from "../../";
 }
 
 {
-  const sqlite3 = types.void;
-  type slqite3ValType = typeof sqlite3.value
-  type slqite3RefType = typeof sqlite3.refer
-  type slqite3RefFfiType = slqite3RefType['type']
-  const sqlite3Ptr = ref.refType(sqlite3);
+  const pal_fd = types.int
+  const pal_fd_ptr = ref.refType(pal_fd)
+  const pal_fd_ptr_ptr = ref.refType(pal_fd_ptr)
+  typeof pal_fd.value
+  typeof pal_fd.self
+  typeof pal_fd.pointer
+  typeof pal_fd.NULL
+  typeof pal_fd.refer
+  typeof pal_fd.type
+
+  typeof pal_fd_ptr.value
+  typeof pal_fd_ptr.self
+  typeof pal_fd_ptr.pointer
+  typeof pal_fd_ptr.NULL
+  typeof pal_fd_ptr.refer
+  typeof pal_fd_ptr.type
+
+  typeof pal_fd_ptr_ptr.value
+  typeof pal_fd_ptr_ptr.self
+  typeof pal_fd_ptr_ptr.pointer
+  typeof pal_fd_ptr_ptr.NULL
+  typeof pal_fd_ptr_ptr.refer
+  typeof pal_fd_ptr_ptr.type
 
   /* Allocate a buffer to storage integer */
   const int_val_allocated = ref.alloc(types.int)
   type  int_val_allocated_ffitype = typeof int_val_allocated.type
   ref.set(int_val_allocated, 10, 0)
-  assert.equal(ref.get(int_val_allocated, 0), 10)
+  const get_val = ref.get(int_val_allocated, 0)
+  assert(get_val === 10)
+  const int_val_allocated_ref = ref.ref(int_val_allocated)
+
+  const pal_fd_ptr_allocated = ref.alloc(pal_fd_ptr)  /* int** */
+  ref.set(pal_fd_ptr_allocated, pal_fd_ptr.NULL , 0)
+  ref.set(pal_fd_ptr_allocated, int_val_allocated, 0)
+  const int_ref_ref_dref = ref.deref(pal_fd_ptr_allocated)
+  assert.equal(ref.address(int_ref_ref_dref), ref.address(int_val_allocated))
+
+  const sqlite3 = types.void;
+  const sqlite3Ptr = ref.refType(sqlite3);
+  const sqlite3PtrPtr = ref.refType(sqlite3Ptr);
+
+  typeof sqlite3.value
+  typeof sqlite3.self
+  typeof sqlite3.pointer
+  typeof sqlite3.refer
+  typeof sqlite3.type
+
+  typeof sqlite3Ptr.value
+  typeof sqlite3Ptr.self
+  typeof sqlite3Ptr.pointer
+  typeof sqlite3Ptr.refer
+  typeof sqlite3Ptr.type
+
+  typeof sqlite3PtrPtr.value
+  typeof sqlite3PtrPtr.self
+  typeof sqlite3PtrPtr.pointer
+  typeof sqlite3PtrPtr.refer
+  typeof sqlite3PtrPtr.type
 
   types.intptr_t.NULL
   const intptr_val_allocated = ref.alloc(types.intptr_t)
   intptr_val_allocated.refer
   ref.set(intptr_val_allocated, 10n, 0)
-  assert.equal(ref.get(intptr_val_allocated, 0), 10n)
+  assert(ref.get(intptr_val_allocated, 0) === 10n)
 
-  const int_ref = ref.refType(types.int) /* int* */
-  const int_ref_ref = ref.refType(int_ref) /* int** */
-  int_ref.NULL
-  type int_ref_value_type = typeof int_ref.value
-  const int_ref_allocated = ref.alloc(int_ref)  /* int** */
-  ref.set(int_ref_allocated, int_ref.NULL , 0)
-  ref.set(int_ref_allocated, int_val_allocated, 0)
-  const int_ref_ref_dref = ref.deref(int_ref_allocated)
-  assert.equal(ref.address(int_ref_ref_dref), ref.address(int_val_allocated))
-
-  type sqlite3PtrValType = typeof sqlite3Ptr.value
-  type sqlite3PtrRefType = typeof sqlite3Ptr.refer
-  type sqlite3PtrRefFfiType = sqlite3PtrRefType['type']
-  const sqlite3PtrPtr = ref.refType(sqlite3Ptr);
 
   /* allocated a buffer can storage a pointer void* sqlite3 */
   const sqlite3Allocated = ref.alloc(sqlite3)
