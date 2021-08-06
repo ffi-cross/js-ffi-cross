@@ -9,7 +9,7 @@ export declare var NULL_POINTER: TypedBuffer<Type<Type<undefined>>>;
 /** Get the memory address of buffer. */
 export declare function address(buffer: Buffer): bigint;
 /** Allocate the memory with the given value written to it. */
-export declare function alloc<T>(type: Type<T>, value?: TypedBuffer<T>['value']): TypedBuffer<T>['refer'];
+export declare function alloc<T>(type: Type<T>, value?: TypedBuffer<T>['self']): TypedBuffer<T>['refer'];
 
 /**
  * Allocate the memory with the given string written to it with the given
@@ -31,7 +31,7 @@ export declare function derefType<T>(type: Type<T>): T;
 /** Represents the native endianness of the processor ("LE" or "BE"). */
 export declare var endianness: string;
 /** Check the indirection level and return a dereferenced when necessary. */
-export declare function get<T>(buffer: ArrayTypeValue<T>, offset?: number, type?: ArrayTypeValue<T>['type']): T;
+export declare function get<T>(buffer: ArrayTypeValue<T>, offset?: number, type?: ArrayTypeValue<T>['type']): ArrayTypeValue<T>['element'];
 export declare function get<T>(buffer: TypedBuffer<T>, offset?: number, type?: Type<T>): TypedBuffer<T>['value'];
 /** Get type of the buffer. Create a default type when none exists. */
 export declare function getType<T>(buffer: TypedBuffer<T>): Type<T>;
