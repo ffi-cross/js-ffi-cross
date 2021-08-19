@@ -97,26 +97,6 @@ console.log(buf.toString());
 ("hello world\u0000");
 ```
 
-### ref.coerceType(Object|String type) → Object
-
-- type - The "type" Object or String to coerce.
-- **Return:** A "type" object
-
-Coerces a "type" object from a String or an actual "type" object. String values are looked up from the `ffi.types` Object. So:
-
-- `"int"` gets coerced into `ffi.types.int`.
-- `"int *"` gets translated into `ref.refType(ffi.types.int)`
-- `ffi.types.int` gets translated into `ffi.types.int` (returns itself)
-
-Throws an Error if no valid "type" object could be determined. Most `ref` functions use this function under the hood, so anywhere a "type" object is expected, a String may be passed as well, including simply setting the `buffer.type` property.
-
-```js
-var type = ref.coerceType("int **");
-
-console.log(type.indirection);
-3;
-```
-
 ### ref.deref(Buffer buffer) → ?
 
 - buffer - A Buffer instance to dereference.
