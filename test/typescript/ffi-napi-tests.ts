@@ -244,22 +244,20 @@ import  { ref, StructType, types, UnionType, ArrayType, buffer } from "../../";
   assert.equal(ref.address(b[2]), ref.address(intptr_val_allocated))
 
   const stringPtr = ref.refType(types.CString);
+  const sqlite3CallbackContext = ref.refType(types.void)
+  const sqlite3Callback = ffi.Function(types.int, [sqlite3CallbackContext, types.int, stringPtr, stringPtr])
   const lib =
     process.platform == "win32"
       ? path.join(
-          process.env.ProgramData || "",
+          process.env.ProgramData ?? "",
           "chocolatey/lib/SQLite/tools/sqlite3.dll"
         )
       : "libsqlite3";
-
   const libsqlite3 = ffi.Library(lib, {
-    sqlite3_open: ["int", ["string", sqlite3PtrPtr]],
-    sqlite3_close: ["int", [sqlite3PtrPtr]],
-    sqlite3_exec: [
-      "int",
-      [sqlite3PtrPtr, "string", "pointer", "pointer", stringPtr],
-    ],
-    sqlite3_changes: ["int", [sqlite3PtrPtr]],
+    sqlite3_open: [types.int, [types.CString, sqlite3PtrPtr]],
+    sqlite3_close: [types.int, [sqlite3PtrPtr]],
+    sqlite3_exec: [types.int, [sqlite3Ptr, types.CString, sqlite3Callback, sqlite3CallbackContext, stringPtr]],
+    sqlite3_changes: [types.int, [sqlite3PtrPtr]],
   });
 
   const dbPtrPtr = ref.alloc(sqlite3Ptr);
