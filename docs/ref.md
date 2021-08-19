@@ -78,8 +78,8 @@ console.log(ref.address(ref.NULL)));
 Returns a new Buffer instance big enough to hold `type`, with the given `value` written to it.
 
 ```js
-var intBuf = ref.alloc(ref.types.int);
-var int_with_4 = ref.alloc(ref.types.int, 4);
+var intBuf = ref.alloc(ffi.types.int);
+var int_with_4 = ref.alloc(ffi.types.int, 4);
 ```
 
 ### ref.allocCString(String string, String encoding) → Buffer
@@ -102,11 +102,11 @@ console.log(buf.toString());
 - type - The "type" Object or String to coerce.
 - **Return:** A "type" object
 
-Coerces a "type" object from a String or an actual "type" object. String values are looked up from the `ref.types` Object. So:
+Coerces a "type" object from a String or an actual "type" object. String values are looked up from the `ffi.types` Object. So:
 
-- `"int"` gets coerced into `ref.types.int`.
-- `"int *"` gets translated into `ref.refType(ref.types.int)`
-- `ref.types.int` gets translated into `ref.types.int` (returns itself)
+- `"int"` gets coerced into `ffi.types.int`.
+- `"int *"` gets translated into `ref.refType(ffi.types.int)`
+- `ffi.types.int` gets translated into `ffi.types.int` (returns itself)
 
 Throws an Error if no valid "type" object could be determined. Most `ref` functions use this function under the hood, so anywhere a "type" object is expected, a String may be passed as well, including simply setting the `buffer.type` property.
 
@@ -258,7 +258,7 @@ Returns a new clone of the given "type" object, with its `indirection` level inc
 Say you wanted to create a type representing a `void *`:
 
 ```js
-var voidPtr = ref.refType(ref.types.void);
+var voidPtr = ref.refType(ffi.types.void);
 ```
 
 ### ref.reinterpret(Buffer buffer, Number size, Number offset) → Buffer
