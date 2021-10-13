@@ -72,13 +72,13 @@ import  { ref, StructType, types, UnionType, ArrayType, buffer } from "../../";
 {
   const str = ref.readCString(Buffer.from("hello\0world\0"), 0);
   const buf = ref.alloc(types.int64);
-  buffer.writeBigInt64BE(buf, 9223372036854775807n, 0);
+  buffer.writeBigInt64BE(buf, BigInt('9223372036854775807'), 0);
   const val = buffer.readBigInt64BE(buf, 0);
 }
 {
   const voidPtrType = ref.refType(types.void);
   const buf = ref.alloc(types.int64);
-  buffer.writeBigInt64LE(buf, 9223372036854775807n, 0);
+  buffer.writeBigInt64LE(buf, BigInt('9223372036854775807'), 0);
 }
 {
   const S1 = StructType({ a: types.int });
@@ -208,8 +208,8 @@ import  { ref, StructType, types, UnionType, ArrayType, buffer } from "../../";
   types.intptr_t.NULL
   const intptr_val_allocated = ref.alloc(types.intptr_t)
   intptr_val_allocated.refer
-  ref.set(intptr_val_allocated, 10n, 0)
-  assert(ref.get(intptr_val_allocated, 0) === 10n)
+  ref.set(intptr_val_allocated, BigInt(10), 0)
+  assert(ref.get(intptr_val_allocated, 0) === BigInt(10))
 
 
   /* allocated a buffer can storage a pointer void* sqlite3 */
