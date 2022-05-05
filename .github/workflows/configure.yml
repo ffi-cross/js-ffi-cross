@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        node_version: ['12', '14']
+        node_version: ['14', '16']
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
