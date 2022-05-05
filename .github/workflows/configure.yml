@@ -33,7 +33,7 @@ jobs:
       - name: Npm Install dependencies and test
         shell: pwsh
         run: |
-          npm install -g node-gyp
+          npm install -g npm
           npm install
           npm run test:full
       - name: Coveralls
